@@ -1,0 +1,13 @@
+/* Tokens oficiales de Primer Primitives 11.10.0, vendorizados localmente. */
+@import "./vendor/primer/dist/css/base/size/size.css";
+@import "./vendor/primer/dist/css/base/typography/typography.css";
+@import "./vendor/primer/dist/css/functional/size/border.css";
+@import "./vendor/primer/dist/css/functional/size/breakpoints.css";
+@import "./vendor/primer/dist/css/functional/size/size-coarse.css";
+@import "./vendor/primer/dist/css/functional/size/size-fine.css";
+@import "./vendor/primer/dist/css/functional/size/size.css";
+@import "./vendor/primer/dist/css/functional/size/viewport.css";
+@import "./vendor/primer/dist/css/functional/typography/typography.css";
+@import "./vendor/primer/dist/css/functional/spacing/space.css";
+@import "./vendor/primer/dist/css/functional/themes/light.css";
+@import "./vendor/primer/dist/css/functional/themes/dark.css";

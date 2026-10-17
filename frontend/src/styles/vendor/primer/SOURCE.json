@@ -1,0 +1,28 @@
+{
+  "name": "@primer/primitives",
+  "version": "11.10.0",
+  "license": "MIT",
+  "sourceRepository": "https://github.com/primer/primitives",
+  "sourceRelease": "https://github.com/primer/primitives/releases",
+  "sourceCommit": "3f51f80",
+  "retrievedAt": "2026-10-17",
+  "distribution": "https://cdn.jsdelivr.net/npm/@primer/primitives@11.10.0",
+  "tlsVersionHeader": "11.10.0",
+  "npmTarballIntegrity": null,
+  "npmTarballIntegrityNote": "No verificada: registry.npmjs.org rechazó el certificado TLS del entorno. Los archivos se descargaron individualmente desde jsDelivr con TLS validado.",
+  "sha256": {
+    "LICENSE": "e63582a78dddebe610b6cb59f0e7f5f761c1bb6a1c9551443beddc64fe525c3a",
+    "dist/css/base/size/size.css": "84139b5ef4e09da469e360a928f23d62479a8b37e9ebbeabd5c9c3795b3fea60",
+    "dist/css/base/typography/typography.css": "0564da8953da95586772ac617378280464f2bb59f880753f56d46f3ef92f9cf0",
+    "dist/css/functional/size/border.css": "223a01cf4a8ff2fdf6c87e6eae88144406e082f019f43d1a18c712287de3ec2a",
+    "dist/css/functional/size/breakpoints.css": "8d32038de12300b417b3cfc492ac546de31c30be8f799192c6b91d4f5e3578c3",
+    "dist/css/functional/size/size-coarse.css": "c042a689af05baff3c55c629ae9da5bf224a0fcdd6580fee34625a05424d66f0",
+    "dist/css/functional/size/size-fine.css": "d4277415058f75fd8fe51169fa30099dea0b791d5cda61cbb3de79f74a607e7a",
+    "dist/css/functional/size/size.css": "98c0a8cc23c939e100fba0a0e37299249d534f979d6da64629ad228416f5be64",
+    "dist/css/functional/size/viewport.css": "eb9bc7a5b7b75ac1a089fed78ee9c43fef89d3bab19d56582043aed54b8ea14f",
+    "dist/css/functional/spacing/space.css": "4e9e6cdfd8f471af6fa26760ca82e4503d2f502ec23b465f4337c9f11926bd10",
+    "dist/css/functional/themes/dark.css": "d70cf0d4f3b2b1056030b40fcf1cd65b1d74d07dbbec002ad300e08266188d89",
+    "dist/css/functional/themes/light.css": "86468bdfa1761f189d7bed7c1a13c6183f67ec132d689dacc63acc9eec986496",
+    "dist/css/functional/typography/typography.css": "62646c35ab2c5f73e7e8127307b1f8834a67a5f7e5cdfb3701cec70c0a147b82"
+  }
+}
