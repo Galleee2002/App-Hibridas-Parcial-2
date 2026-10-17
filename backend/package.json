@@ -2,5 +2,12 @@
   "name": "commandhub-backend",
   "version": "0.0.0",
   "private": true,
-  "type": "module"
+  "type": "module",
+  "dependencies": {
+    "bcryptjs": "3.0.3",
+    "express": "5.3.0",
+    "jsonwebtoken": "9.0.3",
+    "mongodb": "7.7.0",
+    "zod": "4.6.7"
+  }
 }

@@ -31,13 +31,12 @@ Estas instrucciones aplican a todo el repositorio y a todos los agentes que trab
 
 ## 4. Trabajo escalonado con el roadmap
 
-- `/docs/ROADMAP.md` está pendiente de creación y será la guía de ejecución por etapas.
-- Cuando se solicite crearlo, fundamentarlo en la consigna y el PRD disponibles. No completar el roadmap con alcance inventado.
+- `/docs/ROADMAP.md` es la guía de ejecución por etapas del MVP. Está fundamentado en la consigna y el PRD; no ampliarlo con alcance inventado.
 - Antes de comenzar una feature, revisar mediante el subagente el paso correspondiente y sus dependencias.
 - Seguir el orden del roadmap sin saltar etapas. Cualquier cambio de orden o alcance requiere una indicación explícita del usuario.
 - Cada feature debe tener un tamaño mediano, un objetivo concreto y un resultado fácil de revisar y entender. Dividir las features grandes antes de implementarlas.
 - Definir para cada paso el requisito que cubre y los criterios para considerarlo terminado. Completar y verificar el paso actual antes de avanzar al siguiente.
-- Mantener el estado del roadmap actualizado cuando exista. Si todavía no existe, acordar el paso de trabajo con el usuario antes de iniciar una feature.
+- Mantener el estado del roadmap actualizado al cerrar o avanzar una etapa.
 
 ## 5. Diseño basado en el repositorio
 
@@ -59,6 +58,7 @@ Estas instrucciones aplican a todo el repositorio y a todos los agentes que trab
 
 ## 7. Entorno y cierre de cada feature
 
+- Usar pnpm para las dependencias del proyecto. Las versiones del entorno están fijadas en `.nvmrc` y `package.json`; usar el workspace de `backend/` y `frontend/` y conservar el único `pnpm-lock.yaml` en la raíz. No generar lockfiles de npm o Yarn ni instalar dependencias del clon docente como parte del proyecto.
 - El entorno actual tiene una red restringida por firewall. No intentar instalaciones de dependencias, descargas ni acceso a GitHub hasta que el usuario indique que están disponibles o solicite expresamente una operación concreta.
 - Trabajar con los archivos y herramientas locales disponibles. No asumir que existen dependencias instaladas o scripts ejecutables.
 - Realizar las verificaciones locales que correspondan al cambio y que el entorno permita. Informar cuáles se ejecutaron, sus resultados y cuáles quedaron pendientes por una limitación concreta.

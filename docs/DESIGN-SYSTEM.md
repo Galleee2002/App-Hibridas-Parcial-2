@@ -24,7 +24,7 @@ El entrypoint del proyecto es `frontend/src/styles/tokens.css`. Importa de forma
 @import "./styles/tokens.css";
 ```
 
-La ruta del ejemplo es relativa a una futura hoja ubicada en `frontend/src/`; debe ajustarse si la hoja se ubica en otro directorio. El paquete frontend actual no tiene todavía dependencias, scripts ni punto de entrada.
+La ruta del ejemplo es relativa a una futura hoja ubicada en `frontend/src/`; debe ajustarse si la hoja se ubica en otro directorio. El paquete frontend tiene las dependencias base de React y Vite; los scripts y el punto de entrada de la aplicación siguen pendientes. La instalación y las versiones se documentan en el `README.md` de la raíz.
 
 ## Temas y modos
 

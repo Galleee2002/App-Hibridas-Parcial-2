@@ -1,0 +1,8 @@
+packages:
+  - backend
+  - frontend
+
+saveExact: true
+engineStrict: true
+strictPeerDependencies: true
+nodeVersion: 24.22.0
