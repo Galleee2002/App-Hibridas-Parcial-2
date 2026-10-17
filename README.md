@@ -1,7 +1,7 @@
 # CommandHub — App Híbridas Parcial 2
 
 Base del proyecto definido en `docs/CONSIGNA-PARCIAL-2.md` y `docs/PRD.md`.
-La etapa autorizada actual prepara las dependencias y el entorno; todavía no implementa funcionalidades de la aplicación.
+El frontend tiene el punto de entrada Vite listo para arrancar; todavía no hay pantallas ni funcionalidades del MVP.
 
 ## Entorno
 
@@ -12,17 +12,37 @@ La etapa autorizada actual prepara las dependencias y el entorno; todavía no im
 Con nvm ya instalado y disponible en la terminal:
 
 ```bash
+cd /ruta/al/proyecto
 nvm install
 nvm use
 node --version
+which node
 pnpm --version
 pnpm install --frozen-lockfile
 ```
 
-Las versiones esperadas son `v24.22.0` y `10.33.0`. Si falta pnpm, seguir su [guía oficial de instalación](https://pnpm.io/10.x/installation) para instalar la versión `10.33.0`.
+Las versiones esperadas son `v24.22.0` y `10.33.0`. `which node` debe apuntar a `~/.nvm/versions/node/v24.22.0/...`. Si aparece otra ruta (por ejemplo Homebrew con Node 25), cargar nvm en esa terminal y volver a ejecutar `nvm use` antes de instalar o correr scripts.
+
+Si falta pnpm, seguir su [guía oficial de instalación](https://pnpm.io/10.x/installation) para instalar la versión `10.33.0`.
 No mezclar instalaciones de dependencias con npm o Yarn ni generar sus lockfiles.
 
 `pnpm-workspace.yaml` configura versiones exactas al agregar paquetes y la comprobación estricta de engines y peers. `nodeVersion` define la versión contra la que pnpm comprueba compatibilidad; no cambia el Node activo de la terminal: para eso se usa `nvm use`.
+
+## Frontend (base Vite)
+
+Punto de entrada mínimo, sin páginas ni componentes de producto:
+
+- `frontend/index.html`
+- `frontend/vite.config.js`
+- `frontend/src/main.jsx`
+- `frontend/src/index.css` (importa los tokens Primer)
+
+```bash
+nvm use
+pnpm --filter commandhub-frontend dev
+```
+
+También: `pnpm --filter commandhub-frontend build` y `pnpm --filter commandhub-frontend preview`.
 
 ## Dependencias aprobadas
 
@@ -49,27 +69,17 @@ Para instalar únicamente las dependencias normales en un entorno de despliegue:
 pnpm install --prod --frozen-lockfile
 ```
 
-Ese comando omite Vite y su plugin. La futura compilación del frontend necesitará instalar también las dependencias de desarrollo en la etapa de build, antes de desplegar sus archivos estáticos. Este comando instala paquetes; todavía no existe una aplicación lista para arrancar o desplegar.
+Ese comando omite Vite y su plugin. La compilación del frontend (`pnpm --filter commandhub-frontend build`) necesita las dependencias de desarrollo.
 
 ## Estado y verificaciones
 
-Verificado el 17 de octubre de 2026 con Node `24.22.0` y pnpm `10.33.0`:
+Verificado el 17 de octubre de 2026 con Node `24.22.0` (vía `nvm use`) y pnpm `10.33.0`:
 
-- Descarga de Node mediante nvm, con checksum SHA-256 coincidente.
-- Instalación del workspace sin advertencias de incompatibilidad de engines o peers.
-- Reinstalación con `pnpm install --frozen-lockfile`, sin cambios de resolución.
-- `pnpm audit --json`: cero vulnerabilidades conocidas informadas en la consulta.
-- Prueba temporal del backend: respuesta HTTP de Express, validación con Zod, firma y verificación de JWT y comprobación de hashes, incluidos casos de rechazo.
-- Prueba temporal del frontend: renderizado con React/React DOM/Router y compilación JSX con Vite y su plugin. Los archivos de prueba fueron eliminados al finalizar.
-- Instalación de producción en un directorio temporal con `--prod --frozen-lockfile --offline --ignore-scripts`: dependencias normales disponibles; Vite y su plugin ausentes. El directorio temporal fue eliminado al finalizar.
+- Instalación del workspace y dependencias declaradas.
+- `pnpm --filter commandhub-frontend build` completa con el entrypoint Vite base.
+- Roadmap en `docs/ROADMAP.md`.
 
-La auditoría refleja el estado consultado y debe repetirse ante cambios de dependencias:
-
-```bash
-pnpm audit
-```
-
-Pendientes: definir el roadmap, los puntos de entrada y los scripts de la aplicación en la etapa que se autorice. No hay todavía un build de la aplicación completa ni una conexión real a MongoDB verificada. Las pruebas temporales verifican los paquetes instalados, no funcionalidades del MVP.
+Pendientes: Etapa 1 del backend, resto de la Etapa 2 (router, Tailwind, shadcn, capas de vistas/API) y funcionalidades del MVP. No hay conexión real a MongoDB verificada.
 
 ## Referencias del proyecto
 

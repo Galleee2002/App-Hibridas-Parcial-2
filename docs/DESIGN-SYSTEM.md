@@ -18,13 +18,13 @@ Se vendorizó `@primer/primitives` versión `11.10.0`, publicada bajo licencia M
 
 El paquete se obtuvo desde jsDelivr con versión fijada en cada URL y TLS validado; la respuesta indicó `x-jsd-version: 11.10.0`. La verificación directa del tarball del registro npm no estuvo disponible porque el entorno rechazó su certificado TLS. Por eso no se declara una integridad SRI de tarball; los hashes SHA-256 del contenido vendorizado sí permiten revisar estos archivos. La fuente de release identifica el commit `3f51f80`.
 
-El entrypoint del proyecto es `frontend/src/styles/tokens.css`. Importa de forma explícita los archivos locales y no consulta npm ni una CDN durante la ejecución. Cuando se cree la entrada de estilos de la app, deberá importar ese archivo una sola vez, por ejemplo:
+El entrypoint del proyecto es `frontend/src/styles/tokens.css`. Importa de forma explícita los archivos locales y no consulta npm ni una CDN durante la ejecución. La hoja de la app `frontend/src/index.css` los carga una sola vez:
 
 ```css
 @import "./styles/tokens.css";
 ```
 
-La ruta del ejemplo es relativa a una futura hoja ubicada en `frontend/src/`; debe ajustarse si la hoja se ubica en otro directorio. El paquete frontend tiene las dependencias base de React y Vite; los scripts y el punto de entrada de la aplicación siguen pendientes. La instalación y las versiones se documentan en el `README.md` de la raíz.
+La instalación, scripts y versiones se documentan en el `README.md` de la raíz.
 
 ## Temas y modos
 
@@ -34,7 +34,7 @@ Primer aplica los tokens de color mediante atributos `data-*` en `body` u otro e
 <html data-color-mode="auto" data-light-theme="light" data-dark-theme="dark">
 ```
 
-`data-color-mode` acepta `light`, `dark` o `auto`. Para el modo automático, Primer selecciona el tema según la preferencia del sistema; los atributos de tema indican qué temas usar para cada modo. Los nombres coinciden con los temas CSS `light` y `dark`. Esta configuración es una guía para la futura app: hoy no existe HTML de aplicación donde aplicarla.
+`data-color-mode` acepta `light`, `dark` o `auto`. Para el modo automático, Primer selecciona el tema según la preferencia del sistema; los atributos de tema indican qué temas usar para cada modo. Los nombres coinciden con los temas CSS `light` y `dark`. En este proyecto se aplican en el `<html>` de `frontend/index.html`.
 
 El entrypoint carga solamente los temas `light` y `dark`. Primer ofrece otros temas (por ejemplo, `dark_dimmed` y variantes de accesibilidad), pero no se incluyen hasta que un requisito del producto los necesite.
 

@@ -15,65 +15,60 @@
 | Validación | Zod (backend y frontend) |
 | Auth | JWT, contraseñas hasheadas |
 
-Estructura de código alineada a `DWN4AP-2026-2-clase-19/clase-19/`. Carpetas del proyecto: `backend/` y `frontend/`. El backend es solo API REST (sin vistas HTML de la clase). Los colores siguen los tokens Primer en `frontend/src/styles/tokens.css`; el preset de shadcn no los reemplaza.
+Estructura de código alineada a `DWN4AP-2026-2-clase-19/clase-19/`. Carpetas del proyecto: `backend/` y `frontend/`. El backend es solo API REST. Los colores siguen los tokens Primer en `frontend/src/styles/tokens.css`; el preset de shadcn no los reemplaza.
 
-## Cómo usar este roadmap
-
-1. Completar y verificar una etapa antes de pasar a la siguiente.
-2. No saltar etapas ni ampliar el alcance sin indicación explícita.
-3. Actualizar el **estado** de cada etapa al cerrarla (`no iniciado` → `en curso` → `hecho`).
-4. Queda fuera del MVP todo lo listado en el PRD sección 10 (terminal, compartir, favoritos, recuperación de contraseña, importación, etc.).
+Completar y verificar una etapa antes de pasar a la siguiente. No saltar etapas ni ampliar el alcance sin indicación explícita. Actualizar el **estado** de cada etapa al cerrarla. Queda fuera del MVP lo listado en el PRD sección 10.
 
 Prioridad del PRD (sección 12): acceso a cuenta → categorías → comandos → consulta → búsqueda y filtros → mejoras visuales / cierre.
 
 ---
 
-## Etapa 1 — Base del backend
+## Etapa 1 — Backend (API REST + MongoDB)
 
 | Campo | Valor |
 | --- | --- |
 | **Estado** | no iniciado |
-| **Objetivo** | Tener un servidor Express listo para exponer la API REST y conectar MongoDB. |
-| **Requisito** | Consigna: API REST, división en routers / controladores / servicios / middlewares / esquemas, base NoSQL. |
-| **Dependencia** | Ninguna. Requiere red autorizada para instalar dependencias si aún no están. |
+| **Objetivo** | Tener la API REST en Express conectada a MongoDB, con la división de capas que pide la consigna. |
+| **Requisito** | Consigna: API REST, base NoSQL, división en controladores, routers, servicios, middlewares y esquemas. Entregar `.env` aparte. |
+| **Dependencia** | Ninguna. |
 
 **Alcance**
 
-- Inicializar `backend/` con Express, CORS, JSON y scripts `dev` / `start`.
-- Conexión a MongoDB mediante variables de entorno (`.env` fuera del repo; `.env.example` en el repo).
-- Carpetas: `api/routes`, `api/controllers`, `services`, `middlewares`, `schemas`.
-- Endpoint de salud que confirme que el servidor responde y la base está conectada.
+- Servidor Express que exponga una API REST.
+- Conexión a MongoDB con credenciales por variables de entorno (`.env` fuera del repositorio).
+- Organización en routers, controladores, servicios, middlewares y esquemas.
 
 **Criterios de terminado**
 
-- El servidor arranca en local.
-- La conexión a MongoDB se confirma (por ejemplo, vía el endpoint de salud).
-- No hay secretos en el repositorio.
+- El backend expone una API REST y se conecta a MongoDB.
+- La estructura de capas está en su lugar para las siguientes etapas.
 
 ---
 
-## Etapa 2 — Base del frontend
+## Etapa 2 — Frontend (React)
 
 | Campo | Valor |
 | --- | --- |
-| **Estado** | no iniciado |
-| **Objetivo** | Tener la app React navegable, con estilo del proyecto y capa de API separada de las vistas. |
-| **Requisito** | Consigna: componentes funcionales, hooks, routers, separación vistas / lógica de APIs, estado. PRD secciones 4 y 8 (interfaz clara y adaptable). DESIGN-SYSTEM (tokens + shadcn). |
-| **Dependencia** | Ninguna respecto a la etapa 1 para el scaffold. Instalación de dependencias condicionada a red autorizada. |
+| **Estado** | en curso |
+| **Objetivo** | Tener la app React con enrutamiento, componentes funcionales, estado y vistas separadas de la lógica de APIs. |
+| **Requisito** | Consigna: componentes funcionales y hooks, división de componentes, routers, separación vistas / APIs, manejo de estado. Stack acordado (Tailwind, shadcn) y [DESIGN-SYSTEM.md](./DESIGN-SYSTEM.md). |
+| **Dependencia** | Ninguna respecto a la etapa 1. |
 
 **Alcance**
 
-- Scaffold React (Vite) en `frontend/` con JavaScript.
-- React Router, layout navegable y rutas placeholder.
-- Tailwind CSS; import único de `frontend/src/styles/tokens.css`.
-- Integración shadcn/ui con preset `b2DcW8Pfk`, conservando colores Primer.
-- Cliente HTTP / helpers de API separados de las páginas.
+- Aplicación React en `frontend/` con JavaScript, componentes funcionales y hooks.
+- React Router para las páginas del producto.
+- Separación entre vistas y lógica de consumo de la API.
+- Tailwind CSS y shadcn/ui (preset `b2DcW8Pfk`), usando los tokens Primer del proyecto.
+
+**Hecho hasta ahora**
+
+- Entrypoint Vite (`index.html`, `vite.config.js`, `src/main.jsx`, `src/index.css` con tokens) y scripts `dev` / `build` / `preview`. Sin páginas ni componentes de producto.
 
 **Criterios de terminado**
 
-- La app arranca y muestra un layout con navegación.
-- Las rutas principales existen aunque las pantallas estén vacías o como placeholder.
-- Los tokens Primer se cargan; no se inventan valores visuales fuera del sistema.
+- La app React arranca con enrutamiento y la separación de capas pedida por la consigna.
+- El estilo usa el sistema de diseño del proyecto (sin inventar valores visuales).
 
 ---
 
@@ -206,30 +201,28 @@ Prioridad del PRD (sección 12): acceso a cuenta → categorías → comandos �
 | Campo | Valor |
 | --- | --- |
 | **Estado** | no iniciado |
-| **Objetivo** | Dejar el producto entregable y alineado a la consigna y al PRD. |
-| **Requisito** | Consigna: README detallado; validaciones y JWT ya cubiertos. PRD sección 8, criterios 8–10. |
+| **Objetivo** | Dejar el producto entregable según la consigna y el PRD. |
+| **Requisito** | Consigna: README detallado. PRD sección 8 y criterios de aceptación 8–10. |
 | **Dependencia** | Etapas 6 y 7. |
 
 **Alcance**
 
-- Revisar mensajes de validación, estados vacíos, confirmaciones y uso en móvil / escritorio solo donde falte.
-- README en la raíz: de qué trata el producto y cómo levantarlo (backend, frontend, variables de entorno).
-- Contraste final con los 10 criterios de aceptación del PRD.
+- Completar mensajes de validación, estados vacíos, confirmaciones y uso en móvil / escritorio donde aún falte (PRD sección 8).
+- README: de qué trata el producto y cómo levantarlo.
 - No agregar funcionalidades nuevas.
 
 **Criterios de terminado**
 
-- Los 10 criterios de aceptación del PRD se cumplen.
-- El README permite levantar el proyecto y entender de qué trata.
-- Este roadmap refleja todas las etapas en estado `hecho`.
+- Se cumplen los criterios de aceptación del PRD.
+- El README permite entender el producto y levantarlo.
 
 ---
 
 ## Orden de ejecución
 
 ```text
-1 Base backend ──┐
-                 ├──► 3 Acceso ──► 4 Categorías ──► 5 Comandos ──► 6 Consulta ──┐
-2 Base frontend ─┘         │                                                     ├──► 8 Cierre
-                           └──────────────────► 7 Mi cuenta ────────────────────┘
+1 Backend ──┐
+            ├──► 3 Acceso ──► 4 Categorías ──► 5 Comandos ──► 6 Consulta ──┐
+2 Frontend ─┘         │                                                     ├──► 8 Cierre
+                      └──────────────────► 7 Mi cuenta ────────────────────┘
 ```
