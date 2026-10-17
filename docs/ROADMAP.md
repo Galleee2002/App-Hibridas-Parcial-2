@@ -1,7 +1,7 @@
 # Roadmap — CommandHub MVP
 
 **Producto:** CommandHub (biblioteca personal de comandos)  
-**Estado general:** no iniciado  
+**Estado general:** en curso  
 **Fuentes de alcance:** [CONSIGNA-PARCIAL-2.md](./CONSIGNA-PARCIAL-2.md), [PRD.md](./PRD.md)  
 **Diseño visual:** [DESIGN-SYSTEM.md](./DESIGN-SYSTEM.md)
 
@@ -27,7 +27,7 @@ Prioridad del PRD (sección 12): acceso a cuenta → categorías → comandos �
 
 | Campo | Valor |
 | --- | --- |
-| **Estado** | no iniciado |
+| **Estado** | en curso |
 | **Objetivo** | Tener la API REST en Express conectada a MongoDB, con la división de capas que pide la consigna. |
 | **Requisito** | Consigna: API REST, base NoSQL, división en controladores, routers, servicios, middlewares y esquemas. Entregar `.env` aparte. |
 | **Dependencia** | Ninguna. |
@@ -42,6 +42,8 @@ Prioridad del PRD (sección 12): acceso a cuenta → categorías → comandos �
 
 - El backend expone una API REST y se conecta a MongoDB.
 - La estructura de capas está en su lugar para las siguientes etapas.
+
+**Avance (17/10/2026):** capas y servidor listos (`main.js`, `GET /api/estado`, scripts `dev`/`start`, `.env.example`). Falta verificar el ping con un `backend/.env` real (Atlas o Mongo local).
 
 ---
 

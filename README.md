@@ -44,6 +44,26 @@ pnpm --filter commandhub-frontend dev
 
 También: `pnpm --filter commandhub-frontend build` y `pnpm --filter commandhub-frontend preview`.
 
+## Backend (API REST)
+
+Punto de entrada Express alineado a la clase 19, con capas en `api/routes`, `api/controllers`, `services`, `middlewares` y `schemas`. Puerto `2026`. Endpoint de comprobación: `GET /api/estado`.
+
+Variables de entorno (archivo `backend/.env`, fuera del repositorio; plantilla en `backend/.env.example`):
+
+```
+MONGODB_URI=mongodb+srv://USUARIO:PASSWORD@CLUSTER.mongodb.net/?appName=commandhub
+MONGODB_DB=commandhub
+```
+
+```bash
+nvm use
+cp backend/.env.example backend/.env
+# Completar MONGODB_URI y MONGODB_DB en backend/.env
+pnpm --filter commandhub-backend dev
+```
+
+También: `pnpm --filter commandhub-backend start`. Los scripts cargan `.env` con `node --env-file` y, en desarrollo, reinician con `node --watch`.
+
 ## Dependencias aprobadas
 
 | Paquete | Versión | Uso | Entorno |
@@ -77,9 +97,10 @@ Verificado el 17 de octubre de 2026 con Node `24.22.0` (vía `nvm use`) y pnpm `
 
 - Instalación del workspace y dependencias declaradas.
 - `pnpm --filter commandhub-frontend build` completa con el entrypoint Vite base.
+- Backend: estructura de capas, `main.js` en puerto `2026` y salida controlada si faltan `MONGODB_URI` o `MONGODB_DB`.
 - Roadmap en `docs/ROADMAP.md`.
 
-Pendientes: Etapa 1 del backend, resto de la Etapa 2 (router, Tailwind, shadcn, capas de vistas/API) y funcionalidades del MVP. No hay conexión real a MongoDB verificada.
+Pendientes: completar `backend/.env` y verificar `GET /api/estado` contra MongoDB; resto de la Etapa 2 (router, Tailwind, shadcn, capas de vistas/API) y funcionalidades del MVP. La conexión real a MongoDB queda pendiente de tu cluster y del `.env` local.
 
 ## Referencias del proyecto
 
