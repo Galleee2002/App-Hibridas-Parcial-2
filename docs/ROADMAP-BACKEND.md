@@ -27,7 +27,7 @@ No se copian las entidades ni las reglas del ejemplo docente (juegos, roles, res
 
 | Campo | Valor |
 | --- | --- |
-| **Estado** | en curso |
+| **Estado** | terminada |
 | **Objetivo** | Tener la API REST en Express conectada a MongoDB, con la división de capas que pide la consigna. |
 | **Requisito** | Consigna: API REST, base NoSQL, división en controladores, routers, servicios, middlewares y esquemas. Entregar `.env` aparte. |
 | **Dependencia** | Ninguna. |
@@ -43,7 +43,7 @@ No se copian las entidades ni las reglas del ejemplo docente (juegos, roles, res
 - El backend expone una API REST y se conecta a MongoDB.
 - La estructura de capas está en su lugar para las siguientes etapas.
 
-**Avance (17/10/2026):** capas y servidor listos (`main.js`, `GET /api/estado`, scripts `dev`/`start`, `.env.example`). Falta verificar el ping con un `backend/.env` real (Atlas o Mongo local).
+**Cierre (20/10/2026):** `GET /api/estado` respondió `{ "ok": true }` contra MongoDB Atlas con `backend/.env` local. Capas en su lugar: `api/routes`, `api/controllers`, `services`, `middlewares` y `schemas`. Los esquemas Zod de dominio quedan para la etapa 2.
 
 ---
 

@@ -51,4 +51,4 @@ La etapa 1 del frontend (base Vite) puede avanzar como andamiaje, sin vistas de 
 
 ## Siguiente paso
 
-Etapa 1 de [ROADMAP-BACKEND.md](./ROADMAP-BACKEND.md): verificar el ping a MongoDB con un `backend/.env` real.
+Etapa 2 de [ROADMAP-BACKEND.md](./ROADMAP-BACKEND.md): acceso a la cuenta (registro, login y JWT).

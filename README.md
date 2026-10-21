@@ -103,15 +103,15 @@ Ese comando omite Vite y su plugin. La compilación del frontend (`pnpm --filter
 
 ## Estado y verificaciones
 
-Verificado el 17 de octubre de 2026 con Node `24.22.0` (vía `nvm use`) y pnpm `10.33.0`:
+Verificado el 20 de octubre de 2026 con Node `24.22.0` (vía `nvm use`) y pnpm `10.33.0`:
 
 - Instalación del workspace y dependencias declaradas.
 - `pnpm --filter commandhub-frontend build` completa con el entrypoint Vite base (17/10/2026).
-- Backend: estructura de capas, `main.js` en puerto `2026` y salida controlada si faltan `MONGODB_URI` o `MONGODB_DB`.
+- Backend (20/10/2026): etapa 1 cerrada. `GET /api/estado` respondió `{ "ok": true }` contra MongoDB Atlas. Capas en `api/routes`, `api/controllers`, `services`, `middlewares` y `schemas`.
 - Índice de ejecución en `docs/ROADMAP.md`; etapas en `docs/ROADMAP-BACKEND.md` y `docs/ROADMAP-FRONTEND.md`.
 - Frontend (20/10/2026): Tailwind CSS 4, shadcn/ui (`base-nova`) y el componente `Button`; `main.jsx` sigue sin router ni pantallas.
 
-Pendientes: completar `backend/.env` y verificar `GET /api/estado` contra MongoDB (etapa 1 de `docs/ROADMAP-BACKEND.md`). En el frontend, la etapa 1 de `docs/ROADMAP-FRONTEND.md` sigue abierta: falta enrutamiento y la separación de vistas / APIs. Las pantallas de producto esperan a que el roadmap de backend esté completo. La conexión real a MongoDB queda pendiente de tu cluster y del `.env` local.
+Pendientes: etapa 2 del backend (`docs/ROADMAP-BACKEND.md`, acceso a la cuenta). En el frontend, la etapa 1 de `docs/ROADMAP-FRONTEND.md` sigue abierta: falta enrutamiento y la separación de vistas / APIs. Las pantallas de producto esperan a que el roadmap de backend esté completo.
 
 ## Referencias del proyecto
 
