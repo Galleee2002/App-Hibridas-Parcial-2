@@ -31,12 +31,13 @@ Estas instrucciones aplican a todo el repositorio y a todos los agentes que trab
 
 ## 4. Trabajo escalonado con el roadmap
 
-- `/docs/ROADMAP.md` es la guía de ejecución por etapas del MVP. Está fundamentado en la consigna y el PRD; no ampliarlo con alcance inventado.
-- Antes de comenzar una feature, revisar mediante el subagente el paso correspondiente y sus dependencias.
-- Seguir el orden del roadmap sin saltar etapas. Cualquier cambio de orden o alcance requiere una indicación explícita del usuario.
+- `/docs/ROADMAP.md` es el índice de ejecución del MVP. El detalle de las etapas está en `/docs/ROADMAP-BACKEND.md` y `/docs/ROADMAP-FRONTEND.md`. Está fundamentado en la consigna y el PRD; no ampliarlo con alcance inventado.
+- Completar `/docs/ROADMAP-BACKEND.md` antes de empezar las pantallas de `/docs/ROADMAP-FRONTEND.md`. La etapa 1 del frontend (base Vite, sin vistas de producto) puede existir como andamiaje.
+- Antes de comenzar una feature, revisar mediante el subagente el paso correspondiente y sus dependencias en el roadmap de esa capa.
+- Seguir el orden del roadmap de la capa en curso sin saltar etapas. Cualquier cambio de orden o alcance requiere una indicación explícita del usuario.
 - Cada feature debe tener un tamaño mediano, un objetivo concreto y un resultado fácil de revisar y entender. Dividir las features grandes antes de implementarlas.
 - Definir para cada paso el requisito que cubre y los criterios para considerarlo terminado. Completar y verificar el paso actual antes de avanzar al siguiente.
-- Mantener el estado del roadmap actualizado al cerrar o avanzar una etapa.
+- Mantener el estado de la etapa actualizado en el roadmap de esa capa al cerrarla o avanzar.
 
 ## 5. Diseño basado en el repositorio
 

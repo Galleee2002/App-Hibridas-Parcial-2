@@ -4,13 +4,13 @@
 
 Este documento establece los tokens visuales disponibles para la futura interfaz de CommandHub. El PRD pide una experiencia simple, clara y adaptable a móviles y escritorio (secciones 4 y 8); la consigna del Parcial 2 requiere una interfaz React organizada en vistas y componentes. Ninguna de esas fuentes prescribe una marca o una paleta propia. Para contar con una base consistente sin inventar valores, el proyecto conserva los tokens CSS oficiales de GitHub Primer Primitives.
 
-La adopción actual se limita a los tokens: no instala Primer React, Tailwind ni shadcn/ui y no crea componentes, utilidades Tailwind o aliases de shadcn. Esas integraciones quedan para una etapa posterior, cuando el proyecto tenga una aplicación frontend y sus versiones/configuración estén definidas.
+Los tokens Primer siguen siendo la fuente de color, tipografía, espaciado y radio. El frontend ya carga Tailwind CSS 4 y shadcn/ui; los aliases de shadcn en `frontend/src/index.css` apuntan a esos tokens y no los reemplazan. No se instala Primer React.
 
 ## Preset de shadcn/ui acordado
 
-Por decisión explícita del usuario, se utilizará el preset `b2DcW8Pfk` al integrar shadcn/ui. Los colores seguirán definidos por los tokens Primer expuestos en `frontend/src/styles/tokens.css`; la paleta del preset no los reemplazará. También se conservarán las convenciones visuales existentes del proyecto.
+Por decisión explícita del usuario, se utilizará el preset `b2DcW8Pfk` al integrar shadcn/ui. Los colores siguen definidos por los tokens Primer expuestos en `frontend/src/styles/tokens.css`; la paleta de shadcn no los reemplaza. También se conservan las convenciones visuales existentes del proyecto.
 
-**Estado: pendiente por restricción de firewall.** Quedan pendientes la decodificación de la configuración del preset `b2DcW8Pfk` y su integración. Se retomarán cuando el acceso de red necesario esté disponible y autorizado. Antes de aplicarlo, también se deberán definir las versiones y la configuración de la aplicación frontend. Se mantendrá la prioridad de los colores de `tokens.css` y de las convenciones visuales existentes. Esta decisión no incorpora dependencias ni modifica `tokens.css`.
+**Estado:** Tailwind CSS 4 y shadcn/ui están inicializados. `frontend/components.json` declara el estilo `base-nova`. Los aliases de color viven en `frontend/src/index.css` y apuntan a `tokens.css`. El identificador `b2DcW8Pfk` no figura en `components.json`; no se modificó `tokens.css`.
 
 ## Fuente y archivos
 
@@ -18,10 +18,13 @@ Se vendorizó `@primer/primitives` versión `11.10.0`, publicada bajo licencia M
 
 El paquete se obtuvo desde jsDelivr con versión fijada en cada URL y TLS validado; la respuesta indicó `x-jsd-version: 11.10.0`. La verificación directa del tarball del registro npm no estuvo disponible porque el entorno rechazó su certificado TLS. Por eso no se declara una integridad SRI de tarball; los hashes SHA-256 del contenido vendorizado sí permiten revisar estos archivos. La fuente de release identifica el commit `3f51f80`.
 
-El entrypoint del proyecto es `frontend/src/styles/tokens.css`. Importa de forma explícita los archivos locales y no consulta npm ni una CDN durante la ejecución. La hoja de la app `frontend/src/index.css` los carga una sola vez:
+El entrypoint de tokens es `frontend/src/styles/tokens.css`. Importa de forma explícita los archivos locales y no consulta npm ni una CDN durante la ejecución. La hoja de la app `frontend/src/index.css` carga Tailwind, esos tokens y la hoja de shadcn:
 
 ```css
+@import "tailwindcss";
 @import "./styles/tokens.css";
+@import "tw-animate-css";
+@import "shadcn/tailwind.css";
 ```
 
 La instalación, scripts y versiones se documentan en el `README.md` de la raíz.
@@ -53,19 +56,30 @@ Los CSS exponen propiedades personalizadas. En CSS se consumen con `var(...)`, p
 
 Los tokens de color funcionales expresan intención (fondo, texto, borde, estado); los de tamaño, espaciado y tipografía ofrecen escalas compartidas. Se importan las nueve hojas de tamaño y tipografía enumeradas por la guía oficial, la escala funcional de espaciado y los dos temas de color elegidos. Se deben preferir esos tokens a valores visuales escritos directamente cuando exista un token adecuado. El archivo `tokens.css` importa los CSS oficiales enteros para mantener las definiciones y comentarios originales. La selección actual cubre los fundamentos enumerados en el manifiesto; no incluye todas las escalas y temas que publica Primer.
 
-### Posible mapeo futuro a Tailwind o shadcn/ui
+### Mapeo a Tailwind y shadcn/ui
 
-La tabla muestra equivalencias candidatas para una futura capa de aliases. Los nombres de la columna Primer existen en los temas locales `light.css` y `dark.css`; los aliases de la primera columna son convenciones que usan Tailwind/shadcn y **no están implementados** en este repositorio.
+Los aliases de shadcn se definen en `:root` de `frontend/src/index.css` y apuntan a tokens Primer. Tailwind los consume mediante `@theme inline` en el mismo archivo.
 
-| Alias candidato | Token Primer existente |
+| Alias shadcn | Token Primer |
 | --- | --- |
 | `--background` | `--bgColor-default` |
 | `--foreground` | `--fgColor-default` |
+| `--card` / `--popover` | `--bgColor-default` |
+| `--card-foreground` / `--popover-foreground` | `--fgColor-default` |
 | `--primary` | `--bgColor-accent-emphasis` |
 | `--primary-foreground` | `--fgColor-onEmphasis` |
-| `--border` | `--borderColor-default` |
+| `--secondary` | `--bgColor-muted` |
+| `--secondary-foreground` | `--fgColor-default` |
+| `--muted` | `--bgColor-muted` |
+| `--muted-foreground` | `--fgColor-muted` |
+| `--accent` | `--bgColor-accent-muted` |
+| `--accent-foreground` | `--fgColor-accent` |
+| `--destructive` | `--bgColor-danger-emphasis` |
+| `--border` / `--input` | `--borderColor-default` |
+| `--ring` | `--borderColor-accent-emphasis` |
+| `--radius` | `--overlay-borderRadius` |
 
-Un adaptador futuro deberá validar la convención de la versión concreta de Tailwind/shadcn antes de crear aliases; esta tabla no configura ni añade esas herramientas.
+También se exponen `--font-sans` (`--fontStack-sansSerif`) y `--font-heading` (`--fontStack-sansSerifDisplay`). No inventar colores ni radios fuera de este mapeo y de `tokens.css`.
 
 ## Actualización de los archivos vendorizados
 

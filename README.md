@@ -1,7 +1,7 @@
 # CommandHub — App Híbridas Parcial 2
 
 Base del proyecto definido en `docs/CONSIGNA-PARCIAL-2.md` y `docs/PRD.md`.
-El frontend tiene el punto de entrada Vite listo para arrancar; todavía no hay pantallas ni funcionalidades del MVP.
+El frontend tiene Vite, Tailwind CSS 4 y shadcn/ui como andamiaje; todavía no hay pantallas ni funcionalidades del MVP.
 
 ## Entorno
 
@@ -30,12 +30,14 @@ No mezclar instalaciones de dependencias con npm o Yarn ni generar sus lockfiles
 
 ## Frontend (base Vite)
 
-Punto de entrada mínimo, sin páginas ni componentes de producto:
+Andamiaje de la app, sin páginas ni componentes de producto:
 
 - `frontend/index.html`
-- `frontend/vite.config.js`
-- `frontend/src/main.jsx`
-- `frontend/src/index.css` (importa los tokens Primer)
+- `frontend/vite.config.js` (plugin Tailwind y alias `@` hacia `src/`)
+- `frontend/jsconfig.json` y `frontend/components.json` (shadcn/ui, estilo `base-nova`)
+- `frontend/src/main.jsx` (monta un contenedor vacío; aún sin React Router)
+- `frontend/src/index.css` (Tailwind, tokens Primer y aliases de color para shadcn)
+- `frontend/src/lib/utils.js` y `frontend/src/components/ui/button.jsx`
 
 ```bash
 nvm use
@@ -70,7 +72,15 @@ También: `pnpm --filter commandhub-backend start`. Los scripts cargan `.env` co
 | --- | --- | --- | --- |
 | `react` | `19.3.1` | Componentes y estado | Frontend |
 | `react-dom` | `19.3.1` | Renderizado en el navegador | Frontend |
-| `react-router` | `8.4.0` | Navegación | Frontend |
+| `react-router` | `8.4.0` | Navegación (declarado; aún no usado en `main.jsx`) | Frontend |
+| `tailwindcss` | `4.3.3` | Utilidades CSS | Frontend |
+| `@tailwindcss/vite` | `4.3.3` | Plugin de Tailwind para Vite | Frontend |
+| `shadcn` | `4.22.1` | Componentes de interfaz | Frontend |
+| `@base-ui/react` | `1.9.0` | Primitivas usadas por shadcn | Frontend |
+| `class-variance-authority` | `0.7.1` | Variantes de componentes | Frontend |
+| `cn` | `0.5.0` | Combinación de clases | Frontend |
+| `lucide-react` | `1.60.0` | Iconos | Frontend |
+| `tw-animate-css` | `1.4.0` | Animaciones de Tailwind | Frontend |
 | `zod` | `4.6.7` | Validación de entradas | Frontend y backend |
 | `express` | `5.3.0` | API REST | Backend |
 | `mongodb` | `7.7.0` | Driver oficial de persistencia | Backend |
@@ -96,15 +106,17 @@ Ese comando omite Vite y su plugin. La compilación del frontend (`pnpm --filter
 Verificado el 17 de octubre de 2026 con Node `24.22.0` (vía `nvm use`) y pnpm `10.33.0`:
 
 - Instalación del workspace y dependencias declaradas.
-- `pnpm --filter commandhub-frontend build` completa con el entrypoint Vite base.
+- `pnpm --filter commandhub-frontend build` completa con el entrypoint Vite base (17/10/2026).
 - Backend: estructura de capas, `main.js` en puerto `2026` y salida controlada si faltan `MONGODB_URI` o `MONGODB_DB`.
-- Roadmap en `docs/ROADMAP.md`.
+- Índice de ejecución en `docs/ROADMAP.md`; etapas en `docs/ROADMAP-BACKEND.md` y `docs/ROADMAP-FRONTEND.md`.
+- Frontend (20/10/2026): Tailwind CSS 4, shadcn/ui (`base-nova`) y el componente `Button`; `main.jsx` sigue sin router ni pantallas.
 
-Pendientes: completar `backend/.env` y verificar `GET /api/estado` contra MongoDB; resto de la Etapa 2 (router, Tailwind, shadcn, capas de vistas/API) y funcionalidades del MVP. La conexión real a MongoDB queda pendiente de tu cluster y del `.env` local.
+Pendientes: completar `backend/.env` y verificar `GET /api/estado` contra MongoDB (etapa 1 de `docs/ROADMAP-BACKEND.md`). En el frontend, la etapa 1 de `docs/ROADMAP-FRONTEND.md` sigue abierta: falta enrutamiento y la separación de vistas / APIs. Las pantallas de producto esperan a que el roadmap de backend esté completo. La conexión real a MongoDB queda pendiente de tu cluster y del `.env` local.
 
 ## Referencias del proyecto
 
 - Alcance y requisitos: `docs/CONSIGNA-PARCIAL-2.md` y `docs/PRD.md`.
+- Ejecución: `docs/ROADMAP.md`, `docs/ROADMAP-BACKEND.md` y `docs/ROADMAP-FRONTEND.md`.
 - Diseño visual: `docs/DESIGN-SYSTEM.md` y los tokens propios del proyecto.
 - Estructura, sintaxis y organización del código: `DWN4AP-2026-2-clase-19/clase-19/back/` y `front/`, cuando el clon docente esté disponible localmente.
 
