@@ -146,7 +146,7 @@ No se copian las entidades ni las reglas del ejemplo docente (juegos, roles, res
 
 | Campo | Valor |
 | --- | --- |
-| **Estado** | no iniciado |
+| **Estado** | en curso |
 | **Objetivo** | CRUD de comandos asociados a una categoría propia. |
 | **Requisito** | Consigna: tercera entidad y CRUD. PRD 6.2 (crear, ver, editar, eliminar; sin búsqueda ni filtro aún). |
 | **Dependencia** | Etapa 3. |
@@ -158,10 +158,26 @@ No se copian las entidades ni las reglas del ejemplo docente (juegos, roles, res
 - Eliminar un comando no elimina su categoría.
 - Aislamiento por usuario.
 
+**Plan de trabajo**
+
+1. **Crear comandos y validar sus datos:** definir la validación de título, instrucción, descripción y categoría; al crear, comprobar que la categoría exista y pertenezca al usuario autenticado.
+2. **Consultar comandos propios:** implementar el listado y la consulta por identificador, limitando ambos resultados a los comandos del usuario autenticado.
+3. **Editar comandos:** permitir actualizar los campos del comando y su categoría, validando que la nueva categoría exista y pertenezca al usuario autenticado.
+4. **Eliminar comandos y cerrar la etapa:** eliminar únicamente el comando solicitado, sin eliminar la categoría asociada; revisar los criterios de terminado antes de avanzar.
+
 **Criterios de terminado**
 
-- El usuario crea, consulta, edita y elimina solo sus comandos.
-- Todo comando queda asociado a una categoría válida propia.
+- El usuario autenticado puede crear, listar, consultar, editar y eliminar sus comandos con título, instrucción, descripción y categoría obligatorios.
+- La creación y edición rechazan una categoría inexistente o perteneciente a otro usuario.
+- Las operaciones de listado, consulta, edición y eliminación no permiten acceder ni modificar comandos de otro usuario.
+- Eliminar un comando conserva la categoría a la que estaba asociado.
+- La etapa queda verificada antes de iniciar la etapa 5; la búsqueda por título y el filtro por categoría permanecen en esa etapa.
+
+**Implementación y verificación**
+
+- Implementados los endpoints REST autenticados y sus capas de rutas, controladores, validación Zod y servicio MongoDB.
+- Verificación local ejecutada: `node --check` en `main.js` y en los cinco módulos nuevos de comandos, sin errores de sintaxis.
+- Pendiente: verificar el CRUD y el aislamiento con el backend conectado a MongoDB; no se avanzará a la etapa 5 hasta completar esa verificación.
 
 ---
 
@@ -180,6 +196,22 @@ No se copian las entidades ni las reglas del ejemplo docente (juegos, roles, res
 - Filtro por categoría en el listado de comandos propios.
 
 La acción de copiar el texto del comando queda en el frontend.
+
+**Plan de ejecución**
+
+1. Extender la consulta/listado autenticado de la etapa 4 para aceptar los criterios de búsqueda por título y filtro por categoría, sin crear una operación de producto distinta del listado.
+2. Definir y validar los parámetros recibidos en el query string mediante el esquema de validación del backend, respondiendo con el formato de error establecido por el proyecto cuando sean inválidos.
+3. Aplicar los criterios recibidos a los comandos del usuario autenticado; si se combinan, la consulta debe satisfacer ambos y mantener el aislamiento por usuario.
+4. Verificar el listado sin criterios, cada criterio por separado, su combinación, el aislamiento entre usuarios y el rechazo de parámetros inválidos. Registrar resultados y pendientes al cerrar la etapa.
+
+**Criterios para considerar terminado el plan**
+
+- El listado permite buscar por título y filtrar por categoría, por separado y conjuntamente.
+- La consulta solo devuelve comandos pertenecientes al usuario autenticado.
+- Los parámetros inválidos se rechazan según las convenciones de validación del proyecto.
+- La verificación se realiza con MongoDB y sus resultados quedan documentados.
+
+Las fuentes no precisan si la coincidencia por título es parcial o distingue mayúsculas, ni definen ordenamiento o paginación; esos comportamientos no se incorporan a esta etapa sin una aclaración de alcance.
 
 **Criterios de terminado**
 
