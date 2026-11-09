@@ -40,7 +40,7 @@ La etapa 1 del frontend (base Vite) puede avanzar como andamiaje, sin vistas de 
 
 ## Siguiente paso
 
-Etapa 2 de la Parte 1 (backend): acceso a la cuenta (registro, login y JWT).
+Etapa 4 de la Parte 1 (backend): comandos (CRUD autenticado).
 
 ---
 
@@ -94,7 +94,7 @@ No se copian las entidades ni las reglas del ejemplo docente (juegos, roles, res
 
 | Campo | Valor |
 | --- | --- |
-| **Estado** | no iniciado |
+| **Estado** | terminada |
 | **Objetivo** | Registro e ingreso con JWT; recursos privados solo con sesión. |
 | **Requisito** | Consigna: JWT, usuarios, login/registro, contraseñas encriptadas, validación en el backend. PRD 6.1. |
 | **Dependencia** | Etapa 1. |
@@ -112,13 +112,15 @@ No se copian las entidades ni las reglas del ejemplo docente (juegos, roles, res
 - Sin token válido no se accede a los recursos privados.
 - Los errores de validación se informan de forma clara.
 
+**Cierre (09/11/2026):** `POST /api/usuarios` (registro con Zod + bcrypt, correo único), `POST /api/login` (JWT Bearer, `JWT_SECRET` en `.env`) y `GET /api/usuarios/me` protegido con `validateToken`. Errores de validación como lista `400` en español. Capas: `schemas/usuarios.js`, middlewares Zod/auth, `services/usuarios.services.js`, controller y routes montados en `main.js`. Verificado localmente: body inválido → `400` (lista), `GET /api/usuarios/me` sin token o con token inválido → `401`. Pendiente por red/TLS hacia Atlas: registro `201`, duplicado `409`, login `200` y `me` con token válido.
+
 ---
 
 ## Backend — Etapa 3 — Categorías
 
 | Campo | Valor |
 | --- | --- |
-| **Estado** | no iniciado |
+| **Estado** | terminada |
 | **Objetivo** | CRUD de categorías personales del usuario. |
 | **Requisito** | Consigna: al menos dos entidades además de usuarios; CRUD. PRD 6.3 y reglas de negocio (sección 9). |
 | **Dependencia** | Etapa 2. |
@@ -135,6 +137,8 @@ No se copian las entidades ni las reglas del ejemplo docente (juegos, roles, res
 - CRUD de categorías funciona para el usuario autenticado.
 - La unicidad del nombre por usuario se respeta.
 - La eliminación bloqueada por comandos asociados informa el motivo.
+
+**Cierre (09/11/2026):** `GET/POST /api/categorias`, `GET/PUT/DELETE /api/categorias/:id` protegidos con `validateToken`; Zod en crear/actualizar (`nombre` obligatorio, `descripcion` opcional); aislamiento por `usuarioId`; índice único `{ usuarioId, nombre }`; borrado físico con chequeo preventivo en colección `comandos` (`409` con motivo si hay asociados). Capas: `schemas/categorias.js`, `middlewares/categorias.validate.js`, `services/categorias.services.js`, controller y routes montados en `main.js`. Verificado localmente: sin token o token inválido → `401`; body inválido en `POST`/`PUT` → `400` (lista en español); schema Zod normaliza `descripcion` vacía. Pendiente por red/TLS hacia Atlas: CRUD persistente `201`/`200`, unicidad `409`, aislamiento entre usuarios y bloqueo de borrado con comando asociado.
 
 ---
 

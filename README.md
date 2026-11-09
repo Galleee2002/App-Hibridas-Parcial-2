@@ -32,7 +32,8 @@ No mezclar instalaciones de dependencias con npm o Yarn ni generar sus lockfiles
 
 Andamiaje de la app, sin páginas ni componentes de producto:
 
-- `frontend/index.html`
+- `frontend/index.html` (título CommandHub e icono `/favicon.png`)
+- `frontend/public/favicon.png` (isotipo del sitio)
 - `frontend/vite.config.js` (plugin Tailwind y alias `@` hacia `src/`)
 - `frontend/jsconfig.json` y `frontend/components.json` (shadcn/ui, estilo `base-nova`)
 - `frontend/src/main.jsx` (monta un contenedor vacío; aún sin React Router)
@@ -48,19 +49,27 @@ También: `pnpm --filter commandhub-frontend build` y `pnpm --filter commandhub-
 
 ## Backend (API REST)
 
-Punto de entrada Express alineado a la clase 25, con capas en `api/routes`, `api/controllers`, `services`, `middlewares` y `schemas`. Puerto `2026`. Endpoint de comprobación: `GET /api/estado`.
+Punto de entrada Express alineado a la clase 25, con capas en `api/routes`, `api/controllers`, `services`, `middlewares` y `schemas`. Puerto `2026`.
+
+Endpoints actuales:
+
+- `GET /api/estado` — comprobación de API y MongoDB
+- `POST /api/usuarios` — registro (`nombre`, `correo`, `contraseña`)
+- `POST /api/login` — ingreso; responde con JWT y datos públicos del usuario
+- `GET /api/usuarios/me` — perfil del usuario autenticado (`Authorization: Bearer <token>`)
 
 Variables de entorno (archivo `backend/.env`, fuera del repositorio; plantilla en `backend/.env.example`):
 
 ```
 MONGODB_URI=mongodb+srv://USUARIO:PASSWORD@CLUSTER.mongodb.net/?appName=commandhub
 MONGODB_DB=commandhub
+JWT_SECRET=cambia_este_secreto
 ```
 
 ```bash
 nvm use
 cp backend/.env.example backend/.env
-# Completar MONGODB_URI y MONGODB_DB en backend/.env
+# Completar MONGODB_URI, MONGODB_DB y JWT_SECRET en backend/.env
 pnpm --filter commandhub-backend dev
 ```
 

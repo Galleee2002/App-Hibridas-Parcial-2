@@ -4,6 +4,8 @@
 
 Este documento establece los tokens visuales disponibles para la futura interfaz de CommandHub. El PRD pide una experiencia simple, clara y adaptable a móviles y escritorio (secciones 4 y 8); la consigna del Parcial 2 requiere una interfaz React organizada en vistas y componentes. Ninguna de esas fuentes prescribe una marca o una paleta propia. Para contar con una base consistente sin inventar valores, el proyecto conserva los tokens CSS oficiales de GitHub Primer Primitives.
 
+El isotipo del sitio es el archivo que aportó el usuario. Vive en `frontend/public/favicon.png` y `frontend/index.html` lo declara con `<link rel="icon" type="image/png" href="/favicon.png" />`. No forma parte de los tokens Primer.
+
 Los tokens Primer siguen siendo la fuente de color, tipografía, espaciado y radio. El frontend ya carga Tailwind CSS 4 y shadcn/ui; los aliases de shadcn en `frontend/src/index.css` apuntan a esos tokens y no los reemplazan. No se instala Primer React.
 
 ## Preset de shadcn/ui acordado
