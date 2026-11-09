@@ -48,7 +48,7 @@ También: `pnpm --filter commandhub-frontend build` y `pnpm --filter commandhub-
 
 ## Backend (API REST)
 
-Punto de entrada Express alineado a la clase 19, con capas en `api/routes`, `api/controllers`, `services`, `middlewares` y `schemas`. Puerto `2026`. Endpoint de comprobación: `GET /api/estado`.
+Punto de entrada Express alineado a la clase 25, con capas en `api/routes`, `api/controllers`, `services`, `middlewares` y `schemas`. Puerto `2026`. Endpoint de comprobación: `GET /api/estado`.
 
 Variables de entorno (archivo `backend/.env`, fuera del repositorio; plantilla en `backend/.env.example`):
 
@@ -108,17 +108,17 @@ Verificado el 20 de octubre de 2026 con Node `24.22.0` (vía `nvm use`) y pnpm `
 - Instalación del workspace y dependencias declaradas.
 - `pnpm --filter commandhub-frontend build` completa con el entrypoint Vite base (17/10/2026).
 - Backend (20/10/2026): etapa 1 cerrada. `GET /api/estado` respondió `{ "ok": true }` contra MongoDB Atlas. Capas en `api/routes`, `api/controllers`, `services`, `middlewares` y `schemas`.
-- Índice de ejecución en `docs/ROADMAP.md`; etapas en `docs/ROADMAP-BACKEND.md` y `docs/ROADMAP-FRONTEND.md`.
+- Roadmap único en `docs/ROADMAP.md` (Parte 1 backend, Parte 2 frontend).
 - Frontend (20/10/2026): Tailwind CSS 4, shadcn/ui (`base-nova`) y el componente `Button`; `main.jsx` sigue sin router ni pantallas.
 
-Pendientes: etapa 2 del backend (`docs/ROADMAP-BACKEND.md`, acceso a la cuenta). En el frontend, la etapa 1 de `docs/ROADMAP-FRONTEND.md` sigue abierta: falta enrutamiento y la separación de vistas / APIs. Las pantallas de producto esperan a que el roadmap de backend esté completo.
+Pendientes: etapa 2 del backend en `docs/ROADMAP.md` (acceso a la cuenta). En el frontend, la etapa 1 sigue abierta: falta enrutamiento y las capas `services/` y `context/`. Las pantallas de producto esperan a que la Parte 1 (backend) esté completa.
 
 ## Referencias del proyecto
 
 - Alcance y requisitos: `docs/CONSIGNA-PARCIAL-2.md` y `docs/PRD.md`.
-- Ejecución: `docs/ROADMAP.md`, `docs/ROADMAP-BACKEND.md` y `docs/ROADMAP-FRONTEND.md`.
+- Ejecución: `docs/ROADMAP.md`.
 - Diseño visual: `docs/DESIGN-SYSTEM.md` y los tokens propios del proyecto.
-- Estructura, sintaxis y organización del código: `DWN4AP-2026-2-clase-19/clase-19/back/` y `front/`, cuando el clon docente esté disponible localmente.
+- Estructura, sintaxis y organización del código: `DWN4AP-2026-2/clase-25/back/` y `front/`, cuando el clon docente esté disponible localmente.
 
 El clon docente está excluido de Git y del workspace de pnpm. No se instalan sus dependencias al instalar las de CommandHub y no se descarga al clonar este proyecto.
 
