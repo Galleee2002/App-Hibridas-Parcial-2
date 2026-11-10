@@ -20,7 +20,7 @@ Prioridad del PRD (sección 12): acceso a cuenta → categorías → comandos �
 | Validación | Zod (backend y frontend) |
 | Auth | JWT, contraseñas hasheadas |
 
-Estructura de código alineada a `DWN4AP-2026-2/clase-25/` (`back/` y `front/`). Carpetas del proyecto: `backend/` y `frontend/`. El backend es solo API REST. Los colores siguen los tokens Primer en `frontend/src/styles/tokens.css`; el preset de shadcn no los reemplaza.
+Estructura de código alineada a `DWN4AP-2026-2/clase-25/` (`back/` y `front/`). Carpetas del proyecto: `backend/` y `frontend/`. El backend es solo API REST. Los colores siguen las variables CSS versionadas en `frontend/src/styles/tokens.css`; el preset de shadcn no las reemplaza.
 
 ## Orden de ejecución
 
@@ -40,7 +40,7 @@ La etapa 1 del frontend (base Vite) puede avanzar como andamiaje, sin vistas de 
 
 ## Siguiente paso
 
-Etapa 4 de la Parte 1 (backend): comandos (CRUD autenticado).
+Etapa 5 de la Parte 1 (backend): consulta, búsqueda y filtro de comandos propios.
 
 ---
 
@@ -146,7 +146,7 @@ No se copian las entidades ni las reglas del ejemplo docente (juegos, roles, res
 
 | Campo | Valor |
 | --- | --- |
-| **Estado** | en curso |
+| **Estado** | terminada |
 | **Objetivo** | CRUD de comandos asociados a una categoría propia. |
 | **Requisito** | Consigna: tercera entidad y CRUD. PRD 6.2 (crear, ver, editar, eliminar; sin búsqueda ni filtro aún). |
 | **Dependencia** | Etapa 3. |
@@ -173,11 +173,7 @@ No se copian las entidades ni las reglas del ejemplo docente (juegos, roles, res
 - Eliminar un comando conserva la categoría a la que estaba asociado.
 - La etapa queda verificada antes de iniciar la etapa 5; la búsqueda por título y el filtro por categoría permanecen en esa etapa.
 
-**Implementación y verificación**
-
-- Implementados los endpoints REST autenticados y sus capas de rutas, controladores, validación Zod y servicio MongoDB.
-- Verificación local ejecutada: `node --check` en `main.js` y en los cinco módulos nuevos de comandos, sin errores de sintaxis.
-- Pendiente: verificar el CRUD y el aislamiento con el backend conectado a MongoDB; no se avanzará a la etapa 5 hasta completar esa verificación.
+**Cierre (10/11/2026):** `GET/POST /api/comandos`, `GET/PUT/DELETE /api/comandos/:id` protegidos con `validateToken`; Zod en crear/actualizar con `titulo`, `instruccion`, `descripcion` y `categoriaId` obligatorios; aislamiento por `usuarioId`; validación de categoría existente y del mismo usuario en crear/editar; borrado físico del comando sin eliminar la categoría. Capas: `schemas/comandos.js`, `middlewares/comandos.validate.js`, `services/comandos.services.js`, controller y routes montados en `main.js`. Verificado con MongoDB conectado: CRUD `201`/`200`, sin token → `401`, body inválido → `400` (lista en español), categoría ajena o inexistente → `404`, aislamiento entre usuarios en GET/PUT/DELETE, y categoría conservada tras eliminar el comando. Fuera de esta etapa: búsqueda por título y filtro por categoría (Etapa 5).
 
 ---
 
@@ -261,7 +257,7 @@ La organización sigue `DWN4AP-2026-2/clase-25/front/`, adaptada a CommandHub:
 - Sesión con Context en `src/context` (consigna); rutas protegidas.
 - Estados de carga típicos: `loading | ready | error`.
 
-No se copian roles ni el criterio de sesión del ejemplo docente. El estilo visual usa [DESIGN-SYSTEM.md](./DESIGN-SYSTEM.md) y los tokens Primer; la clase 25 no define la interfaz de CommandHub.
+No se copian roles ni el criterio de sesión del ejemplo docente. El estilo visual usa [DESIGN-SYSTEM.md](./DESIGN-SYSTEM.md) y las variables de `tokens.css`; la clase 25 no define la interfaz de CommandHub.
 
 ---
 
@@ -279,12 +275,12 @@ No se copian roles ni el criterio de sesión del ejemplo docente. El estilo visu
 - Aplicación React en `frontend/` con JavaScript, componentes funcionales y hooks.
 - React Router para las páginas del producto.
 - Separación entre vistas y lógica de consumo de la API (`services/`).
-- Tailwind CSS y shadcn/ui (preset `b2DcW8Pfk`), usando los tokens Primer del proyecto.
+- Tailwind CSS y shadcn/ui (preset `b2DcW8Pfk`), usando las variables CSS de `tokens.css`.
 
 **Hecho hasta ahora**
 
 - Entrypoint Vite (`index.html`, `vite.config.js` con plugin Tailwind y alias `@`, `src/main.jsx`, `src/index.css`) y scripts `dev` / `build` / `preview`.
-- Tailwind CSS 4 (`tailwindcss`, `@tailwindcss/vite`) y puente de color hacia shadcn/ui en `src/index.css`, usando los tokens Primer.
+- Tailwind CSS 4 (`tailwindcss`, `@tailwindcss/vite`) y puente de color hacia shadcn/ui en `src/index.css`, usando variables CSS versionadas en `src/styles/tokens.css` (sin vendor externo).
 - shadcn/ui inicializado: `components.json` (estilo `base-nova`), `jsconfig.json`, `src/lib/utils.js` y el componente `src/components/ui/button.jsx`.
 - Sin React Router en `main.jsx`. Sin `services/` ni `context/`. Sin páginas ni componentes de producto.
 

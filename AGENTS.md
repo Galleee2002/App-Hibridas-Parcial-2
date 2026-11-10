@@ -43,7 +43,7 @@ Estas instrucciones aplican a todo el repositorio y a todos los agentes que trab
 - Usar exclusivamente los tokens de diseño y las convenciones visuales definidos en el proyecto.
 - Reutilizar los componentes y estilos existentes. No inventar colores, tipografías, espaciados, radios, sombras ni otros valores visuales fuera del sistema definido.
 - Antes de trabajar en una interfaz, pedir al subagente que identifique las fuentes reales de los tokens y las convenciones aplicables.
-- Los tokens oficiales de diseño están vendorizados en `frontend/src/styles/vendor/primer/` y se exponen mediante `frontend/src/styles/tokens.css`; su guía de uso está en `/docs/DESIGN-SYSTEM.md`. Si un cambio necesita tokens que faltan, informar la ausencia y solicitar su definición antes de implementar esa decisión visual.
+- Los tokens oficiales de diseño están versionados como variables CSS en `frontend/src/styles/tokens.css`; su guía de uso está en `/docs/DESIGN-SYSTEM.md`. Si un cambio necesita tokens que faltan, informar la ausencia y solicitar su definición en `tokens.css` antes de implementar esa decisión visual.
 
 ## 6. Código básico, legible y simple
 

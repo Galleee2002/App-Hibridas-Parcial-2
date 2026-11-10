@@ -1,13 +1,76 @@
-/* Tokens oficiales de Primer Primitives 11.10.0, vendorizados localmente. */
-@import "./vendor/primer/dist/css/base/size/size.css";
-@import "./vendor/primer/dist/css/base/typography/typography.css";
-@import "./vendor/primer/dist/css/functional/size/border.css";
-@import "./vendor/primer/dist/css/functional/size/breakpoints.css";
-@import "./vendor/primer/dist/css/functional/size/size-coarse.css";
-@import "./vendor/primer/dist/css/functional/size/size-fine.css";
-@import "./vendor/primer/dist/css/functional/size/size.css";
-@import "./vendor/primer/dist/css/functional/size/viewport.css";
-@import "./vendor/primer/dist/css/functional/typography/typography.css";
-@import "./vendor/primer/dist/css/functional/spacing/space.css";
-@import "./vendor/primer/dist/css/functional/themes/light.css";
-@import "./vendor/primer/dist/css/functional/themes/dark.css";
+
+:root {
+  --fontStack-sansSerif: -apple-system, BlinkMacSystemFont, "Segoe UI",
+    "Noto Sans", Helvetica, Arial, sans-serif, "Apple Color Emoji",
+    "Segoe UI Emoji";
+  --fontStack-sansSerifDisplay: -apple-system, BlinkMacSystemFont, "Segoe UI",
+    "Noto Sans", Helvetica, Arial, sans-serif, "Apple Color Emoji",
+    "Segoe UI Emoji";
+
+  --overlay-borderRadius: 0.375rem;
+
+  --space-xs: 0.25rem;
+  --space-sm: 0.5rem;
+  --space-md: 1rem;
+  --space-lg: 1.5rem;
+  --space-xl: 2rem;
+
+  --text-body-size-medium: 0.875rem;
+
+  --bgColor-default: #ffffff;
+  --fgColor-default: #1f2328;
+  --bgColor-muted: #f6f8fa;
+  --fgColor-muted: #59636e;
+  --bgColor-accent-emphasis: #0969da;
+  --fgColor-onEmphasis: #ffffff;
+  --bgColor-accent-muted: #ddf4ff;
+  --fgColor-accent: #0969da;
+  --bgColor-danger-emphasis: #cf222e;
+  --borderColor-default: #d0d7de;
+  --borderColor-accent-emphasis: #0969da;
+}
+
+[data-color-mode="light"],
+[data-color-mode="auto"] {
+  --bgColor-default: #ffffff;
+  --fgColor-default: #1f2328;
+  --bgColor-muted: #f6f8fa;
+  --fgColor-muted: #59636e;
+  --bgColor-accent-emphasis: #0969da;
+  --fgColor-onEmphasis: #ffffff;
+  --bgColor-accent-muted: #ddf4ff;
+  --fgColor-accent: #0969da;
+  --bgColor-danger-emphasis: #cf222e;
+  --borderColor-default: #d0d7de;
+  --borderColor-accent-emphasis: #0969da;
+}
+
+[data-color-mode="dark"] {
+  --bgColor-default: #0d1117;
+  --fgColor-default: #f0f6fc;
+  --bgColor-muted: #161b22;
+  --fgColor-muted: #9198a1;
+  --bgColor-accent-emphasis: #1f6feb;
+  --fgColor-onEmphasis: #ffffff;
+  --bgColor-accent-muted: #388bfd1a;
+  --fgColor-accent: #4493f8;
+  --bgColor-danger-emphasis: #da3633;
+  --borderColor-default: #30363d;
+  --borderColor-accent-emphasis: #1f6feb;
+}
+
+@media (prefers-color-scheme: dark) {
+  [data-color-mode="auto"] {
+    --bgColor-default: #0d1117;
+    --fgColor-default: #f0f6fc;
+    --bgColor-muted: #161b22;
+    --fgColor-muted: #9198a1;
+    --bgColor-accent-emphasis: #1f6feb;
+    --fgColor-onEmphasis: #ffffff;
+    --bgColor-accent-muted: #388bfd1a;
+    --fgColor-accent: #4493f8;
+    --bgColor-danger-emphasis: #da3633;
+    --borderColor-default: #30363d;
+    --borderColor-accent-emphasis: #1f6feb;
+  }
+}

@@ -37,7 +37,7 @@ Andamiaje de la app, sin páginas ni componentes de producto:
 - `frontend/vite.config.js` (plugin Tailwind y alias `@` hacia `src/`)
 - `frontend/jsconfig.json` y `frontend/components.json` (shadcn/ui, estilo `base-nova`)
 - `frontend/src/main.jsx` (monta un contenedor vacío; aún sin React Router)
-- `frontend/src/index.css` (Tailwind, tokens Primer y aliases de color para shadcn)
+- `frontend/src/index.css` (Tailwind, tokens en `styles/tokens.css` y aliases de color para shadcn)
 - `frontend/src/lib/utils.js` y `frontend/src/components/ui/button.jsx`
 
 ```bash
