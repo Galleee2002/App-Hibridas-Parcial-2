@@ -40,7 +40,7 @@ La etapa 1 del frontend (base Vite) puede avanzar como andamiaje, sin vistas de 
 
 ## Siguiente paso
 
-Parte 1 (backend) completa. Continuar Parte 2 (frontend): cerrar Etapa 1 (base) y luego pantallas de producto desde Etapa 2.
+Parte 1 (backend) completa. Etapas 1–3 del frontend cerradas. Continuar Parte 2 desde Etapa 4 — Formulario y listado de comandos.
 
 ---
 
@@ -269,7 +269,7 @@ No se copian roles ni el criterio de sesión del ejemplo docente. El estilo visu
 
 | Campo | Valor |
 | --- | --- |
-| **Estado** | en curso |
+| **Estado** | terminada |
 | **Objetivo** | Tener la app React con enrutamiento, componentes funcionales, estado y vistas separadas de la lógica de APIs. |
 | **Requisito** | Consigna: componentes funcionales y hooks, división de componentes, routers, separación vistas / APIs, manejo de estado. Stack acordado (Tailwind, shadcn) y [DESIGN-SYSTEM.md](./DESIGN-SYSTEM.md). |
 | **Dependencia** | Ninguna. No incluye pantallas de producto. |
@@ -281,22 +281,25 @@ No se copian roles ni el criterio de sesión del ejemplo docente. El estilo visu
 - Separación entre vistas y lógica de consumo de la API (`services/`).
 - Tailwind CSS y shadcn/ui (preset `b2DcW8Pfk`), usando las variables CSS de `tokens.css`.
 
-**Hecho hasta ahora**
+**Hecho**
 
 - Entrypoint Vite (`index.html`, `vite.config.js` con plugin Tailwind y alias `@`, `src/main.jsx`, `src/index.css`) y scripts `dev` / `build` / `preview`.
 - Tailwind CSS 4 (`tailwindcss`, `@tailwindcss/vite`) y puente de color hacia shadcn/ui en `src/index.css`, usando variables CSS versionadas en `src/styles/tokens.css` (sin vendor externo).
 - shadcn/ui inicializado: `components.json` (estilo `base-nova`), `jsconfig.json`, `src/lib/utils.js` y el componente `src/components/ui/button.jsx`.
-- Sin React Router en `main.jsx`. Sin `services/` ni `context/`. Sin páginas ni componentes de producto.
-
-**Pendiente de andamiaje (alineado a clase 25, sin vistas de producto)**
-
-- Router en `src/main.jsx`.
-- Capas `src/services/` y `src/context/`.
+- `createBrowserRouter` y `RouterProvider` en `src/main.jsx`, con `SessionProvider`, `Layout` + `Outlet`, página andamiaje `Home` en `/` y `NotFound` en `*`.
+- Capas `src/services/api.service.js` (`call` con `fetch` y Bearer) y `src/context/session.context.jsx` (sesión sin roles).
+- Ejemplo de entorno: `frontend/.env.example` con `VITE_API_URL`.
+- Sin pantallas de producto (registro, ingreso, comandos, categorías, cuenta).
 
 **Criterios de terminado**
 
 - La app React arranca con enrutamiento y la separación de capas pedida por la consigna.
 - El estilo usa el sistema de diseño del proyecto (sin inventar valores visuales).
+
+**Verificación**
+
+- Estructura e imports revisados: router, layout, services y context presentes.
+- `pnpm --filter commandhub-frontend build` OK (Vite produce `frontend/dist` sin errores).
 
 ---
 
@@ -304,7 +307,7 @@ No se copian roles ni el criterio de sesión del ejemplo docente. El estilo visu
 
 | Campo | Valor |
 | --- | --- |
-| **Estado** | no iniciado |
+| **Estado** | terminada |
 | **Objetivo** | Registro, login y logout; contenido privado solo con sesión. |
 | **Requisito** | Consigna: JWT, Context, validación en el frontend. PRD 6.1. Vistas Registro e Ingreso (sección 7). |
 | **Dependencia** | Etapa 1 de frontend. Parte 1 (backend) completa. Consume la etapa 2 de backend. |
@@ -316,11 +319,24 @@ No se copian roles ni el criterio de sesión del ejemplo docente. El estilo visu
 - Cerrar sesión.
 - Validación de formularios en el frontend.
 
+**Hecho**
+
+- Rutas `/registro`, `/ingreso`, `/salir`; `/` protegida con `ProtectedRoute`.
+- Páginas `pages/auth/Register.jsx`, `Login.jsx`, `Logout.jsx`; schemas Zod + `react-hook-form`.
+- `services/usuarios.service.js` (`POST /api/usuarios`, `POST /api/login`); `api.service.js` propaga errores 400/`message`.
+- Sesión en Context con `{ token, id, nombre, correo }` en `localStorage`; nav Ingreso/Registro/Salir en `Layout`.
+- Dependencias: `react-hook-form`, `@hookform/resolvers`.
+
 **Criterios de terminado**
 
 - Una persona puede crear cuenta, iniciar sesión y cerrar sesión.
 - Sin token válido no se accede al contenido privado.
 - Los errores de validación se informan de forma clara.
+
+**Verificación**
+
+- `pnpm --filter commandhub-frontend build` OK.
+- Flujo manual registro → ingreso → `/` → salir pendiente si el backend no está levantado en `:2026`.
 
 ---
 
@@ -328,7 +344,7 @@ No se copian roles ni el criterio de sesión del ejemplo docente. El estilo visu
 
 | Campo | Valor |
 | --- | --- |
-| **Estado** | no iniciado |
+| **Estado** | terminada |
 | **Objetivo** | Administrar las categorías personales desde la interfaz. |
 | **Requisito** | PRD 6.3, vista Categorías (sección 7) y reglas de negocio (sección 9). |
 | **Dependencia** | Etapa 2 de frontend. Consume la etapa 3 de backend. |
@@ -339,10 +355,23 @@ No se copian roles ni el criterio de sesión del ejemplo docente. El estilo visu
 - Crear, listar, editar y eliminar categorías propias.
 - Informar el motivo cuando no se puede eliminar una categoría con comandos asociados.
 
+**Hecho**
+
+- Rutas protegidas `/categorias`, `/categorias/nueva`, `/categorias/:id/editar`, `/categorias/:id/eliminar`.
+- Páginas en `pages/categorias/`; componentes de fila/loading/error en `components/categorias/`.
+- `schemas/categorias.js` (Zod) + `services/categorias.service.js` (`GET/POST/PUT/DELETE /api/categorias`).
+- Listado con estados `loading | ready | error` y vacío; formularios con RHF + Zod; baja con confirmación y mensaje si el API responde 409.
+- Nav con Inicio / Categorías / Salir; Home enlaza a categorías.
+
 **Criterios de terminado**
 
 - El usuario autenticado administra sus categorías desde la vista.
 - La eliminación bloqueada por comandos asociados muestra un mensaje comprensible.
+
+**Verificación**
+
+- `pnpm --filter commandhub-frontend build` OK.
+- Flujo manual CRUD + intento de baja con comandos asociados pendiente si el backend no está levantado en `:2026`.
 
 ---
 
