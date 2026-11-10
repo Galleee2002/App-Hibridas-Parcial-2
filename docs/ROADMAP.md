@@ -40,14 +40,14 @@ La etapa 1 del frontend (base Vite) puede avanzar como andamiaje, sin vistas de 
 
 ## Siguiente paso
 
-Etapa 5 de la Parte 1 (backend): consulta, búsqueda y filtro de comandos propios.
+Parte 1 (backend) completa. Continuar Parte 2 (frontend): cerrar Etapa 1 (base) y luego pantallas de producto desde Etapa 2.
 
 ---
 
 # Parte 1 — Backend (API REST)
 
 **Capa:** API REST en `backend/`  
-**Estado general:** en curso
+**Estado general:** terminada
 
 ## Forma de trabajo (backend)
 
@@ -181,7 +181,7 @@ No se copian las entidades ni las reglas del ejemplo docente (juegos, roles, res
 
 | Campo | Valor |
 | --- | --- |
-| **Estado** | no iniciado |
+| **Estado** | terminada |
 | **Objetivo** | Localizar comandos propios desde el listado. |
 | **Requisito** | PRD 6.2 (búsqueda y filtro), criterios de aceptación 5. |
 | **Dependencia** | Etapa 4. |
@@ -207,11 +207,13 @@ La acción de copiar el texto del comando queda en el frontend.
 - Los parámetros inválidos se rechazan según las convenciones de validación del proyecto.
 - La verificación se realiza con MongoDB y sus resultados quedan documentados.
 
-Las fuentes no precisan si la coincidencia por título es parcial o distingue mayúsculas, ni definen ordenamiento o paginación; esos comportamientos no se incorporan a esta etapa sin una aclaración de alcance.
+Las fuentes no precisaban coincidencia parcial ni sensibilidad a mayúsculas, ni ordenamiento o paginación. Por aclaración explícita del alcance, la búsqueda por `titulo` usa coincidencia parcial sin distinguir mayúsculas (`$regex` escapado). Ordenamiento y paginación siguen fuera de esta etapa.
 
 **Criterios de terminado**
 
 - Se puede localizar un comando propio por título y por categoría.
+
+**Cierre (10/11/2026):** `GET /api/comandos` autenticado acepta query opcional `titulo` (parcial, case-insensitive) y `categoriaId` (ObjectId), solos o combinados (AND), siempre filtrando por `usuarioId` del JWT. Validación Zod en `consultarComandosSchema` + `validarConsultarComandos` (`400` como lista de mensajes; Express 5 sombrea `req.query` parseado). Capas: `schemas/comandos.js`, `middlewares/comandos.validate.js`, `api/routes/comandos.routes.js`, `api/controllers/comandos.controller.js`, `services/comandos.services.js`. Verificado con MongoDB conectado: sin query → listado propio; `titulo=git` → parcial case-insensitive; aislamiento entre usuarios; filtro por `categoriaId`; combinación de ambos; `categoriaId` inválido → `400` `["categoriaId: La categoría no es válida"]`; categoría ajena/inexistente → `200` `[]`; sin token → `401`. Fuera de esta etapa: ordenamiento, paginación, copiar comando (frontend), Etapa 6 (mi cuenta).
 
 ---
 
@@ -219,7 +221,7 @@ Las fuentes no precisan si la coincidencia por título es parcial o distingue ma
 
 | Campo | Valor |
 | --- | --- |
-| **Estado** | no iniciado |
+| **Estado** | terminada |
 | **Objetivo** | Consultar datos de la cuenta y editar el nombre visible. |
 | **Requisito** | PRD 6.4. |
 | **Dependencia** | Etapa 2. No bloquea las etapas 3–5. |
@@ -234,6 +236,8 @@ Las fuentes no precisan si la coincidencia por título es parcial o distingue ma
 
 - El usuario autenticado obtiene su nombre y correo.
 - Puede actualizar el nombre y el cambio queda persistido.
+
+**Cierre (10/11/2026):** Consulta reutiliza `GET /api/usuarios/me` (Etapa 2). Actualización: `PUT /api/usuarios/me` con JWT + `usuariosActualizarSchema` (solo `nombre`, `.strict()` rechaza `correo`) + `validateActualizar` + `actualizarUsuario` (`$set` nombre, `mapearUsuario`). Capas: `schemas/usuarios.js`, `middlewares/usuarios.validate.js`, `api/routes/usuarios.routes.js`, `api/controllers/usuarios.controller.js`, `services/usuarios.services.js`. Verificado con MongoDB: GET me → `200`; PUT nombre → `200` y persistido; body con `correo` o sin `nombre` → `400` lista; sin token → `401`. Eliminado script temporal `backend/_verify_etapa5.ps1`. Fuera de esta etapa: editar correo, cambio/recuperación de contraseña, frontend Mi cuenta. Parte 1 (backend) queda completa.
 
 ---
 

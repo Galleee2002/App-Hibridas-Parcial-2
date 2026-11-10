@@ -33,6 +33,10 @@ function convertirComando(documento) {
     }
 }
 
+function escaparRegex(texto) {
+    return texto.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")
+}
+
 async function validarCategoria(categoriaId, usuarioId) {
     const categoriaObjectId = convertirId(categoriaId)
     const categoria = await db.collection("categorias").findOne({
@@ -47,10 +51,23 @@ async function validarCategoria(categoriaId, usuarioId) {
     return categoriaObjectId
 }
 
-export async function listarComandos(usuarioId) {
+export async function listarComandos(usuarioId, filtros = {}) {
     const usuarioObjectId = convertirIdUsuario(usuarioId)
+    const filtro = { usuarioId: usuarioObjectId }
+
+    if (filtros.titulo) {
+        filtro.titulo = {
+            $regex: escaparRegex(filtros.titulo),
+            $options: "i",
+        }
+    }
+
+    if (filtros.categoriaId) {
+        filtro.categoriaId = new ObjectId(filtros.categoriaId)
+    }
+
     const documentos = await db.collection("comandos")
-        .find({ usuarioId: usuarioObjectId })
+        .find(filtro)
         .toArray()
 
     return documentos.map(convertirComando)

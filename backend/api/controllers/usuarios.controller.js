@@ -26,3 +26,12 @@ export async function obtenerUsuarioActual(req, res) {
         res.status(error.status || 500).json({ message: error.message || error })
     }
 }
+
+export async function actualizarUsuarioActual(req, res) {
+    try {
+        const usuario = await usuariosService.actualizarUsuario(req.usuario.id, req.body)
+        res.status(200).json(usuario)
+    } catch (error) {
+        res.status(error.status || 500).json({ message: error.message || error })
+    }
+}

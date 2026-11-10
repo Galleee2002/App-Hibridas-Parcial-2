@@ -97,3 +97,26 @@ export async function obtenerUsuarioPorId(id) {
 
     return mapearUsuario(usuarioDB)
 }
+
+export async function actualizarUsuario(id, datos) {
+    if (!ObjectId.isValid(id)) {
+        const error = new Error("Usuario no encontrado")
+        error.status = 404
+        throw error
+    }
+
+    const resultado = await coleccion.findOneAndUpdate(
+        { _id: new ObjectId(id) },
+        { $set: { nombre: datos.nombre } },
+        { returnDocument: "after" },
+    )
+    const documento = resultado?.value ?? resultado
+
+    if (!documento) {
+        const error = new Error("Usuario no encontrado")
+        error.status = 404
+        throw error
+    }
+
+    return mapearUsuario(documento)
+}

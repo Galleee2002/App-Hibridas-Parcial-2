@@ -2,7 +2,7 @@ import * as comandosService from "../../services/comandos.services.js"
 
 export async function listarComandos(req, res) {
     try {
-        const comandos = await comandosService.listarComandos(req.usuario.id)
+        const comandos = await comandosService.listarComandos(req.usuario.id, req.query)
         res.status(200).json(comandos)
     } catch (error) {
         res.status(error.status || 500).json({ message: error.message || error })
