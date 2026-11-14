@@ -13,6 +13,11 @@ import Categorias from "./pages/categorias/Categorias.jsx"
 import NuevaCategoria from "./pages/categorias/NuevaCategoria.jsx"
 import EditarCategoria from "./pages/categorias/EditarCategoria.jsx"
 import EliminarCategoria from "./pages/categorias/EliminarCategoria.jsx"
+import Comandos from "./pages/comandos/Comandos.jsx"
+import NuevoComando from "./pages/comandos/NuevoComando.jsx"
+import EditarComando from "./pages/comandos/EditarComando.jsx"
+import EliminarComando from "./pages/comandos/EliminarComando.jsx"
+import MiCuenta from "./pages/cuenta/MiCuenta.jsx"
 import NotFound from "./pages/NotFound.jsx"
 import "./index.css"
 
@@ -42,6 +47,26 @@ const router = createBrowserRouter([
         element: <ProtectedRoute element={<EliminarCategoria />} />,
       },
       {
+        path: "comandos",
+        element: <ProtectedRoute element={<Comandos />} />,
+      },
+      {
+        path: "comandos/nuevo",
+        element: <ProtectedRoute element={<NuevoComando />} />,
+      },
+      {
+        path: "comandos/:id/editar",
+        element: <ProtectedRoute element={<EditarComando />} />,
+      },
+      {
+        path: "comandos/:id/eliminar",
+        element: <ProtectedRoute element={<EliminarComando />} />,
+      },
+      {
+        path: "cuenta",
+        element: <ProtectedRoute element={<MiCuenta />} />,
+      },
+      {
         path: "registro",
         element: <Register />,
       },
@@ -60,6 +85,7 @@ const router = createBrowserRouter([
     ],
   },
 ])
+
 
 createRoot(document.getElementById("root")).render(
   <StrictMode>

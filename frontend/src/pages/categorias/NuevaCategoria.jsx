@@ -2,12 +2,10 @@ import { useState } from "react"
 import { Link, useNavigate } from "react-router"
 import { useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
+import { FolderPlus } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { categoriaSchema } from "@/schemas/categorias.js"
 import { useApiCategorias } from "@/services/categorias.service.js"
-
-const campoClase =
-  "w-full rounded-md border border-input bg-background px-3 py-2 text-sm text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
 
 export default function NuevaCategoria() {
   const navigate = useNavigate()
@@ -36,14 +34,20 @@ export default function NuevaCategoria() {
   }
 
   return (
-    <section className="mx-auto w-full max-w-md space-y-6">
-      <div className="space-y-1">
-        <h1 className="font-heading text-2xl font-semibold tracking-tight">
-          Nueva categoría
-        </h1>
-        <p className="text-sm text-muted-foreground">
-          El nombre es obligatorio. La descripción es opcional.
-        </p>
+    <section className="page-enter mx-auto w-full max-w-md">
+      <div className="panel space-y-6 p-6">
+      <div className="flex items-center gap-3">
+        <span className="flex size-10 items-center justify-center rounded-md bg-accent text-accent-foreground">
+          <FolderPlus className="size-5" aria-hidden="true" />
+        </span>
+        <div className="space-y-1">
+          <h1 className="font-heading text-2xl font-semibold tracking-tight">
+            Nueva categoría
+          </h1>
+          <p className="text-sm text-muted-foreground">
+            El nombre es obligatorio. La descripción es opcional.
+          </p>
+        </div>
       </div>
 
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-4" noValidate>
@@ -54,7 +58,7 @@ export default function NuevaCategoria() {
           <input
             id="nombre"
             type="text"
-            className={campoClase}
+            className="field"
             {...register("nombre")}
           />
           {errors.nombre ? (
@@ -69,7 +73,7 @@ export default function NuevaCategoria() {
           <textarea
             id="descripcion"
             rows={3}
-            className={campoClase}
+            className="field"
             {...register("descripcion")}
           />
           {errors.descripcion ? (
@@ -87,16 +91,15 @@ export default function NuevaCategoria() {
 
         <div className="flex flex-wrap gap-3">
           <Button type="submit" disabled={isSubmitting}>
+            <FolderPlus aria-hidden="true" />
             {isSubmitting ? "Guardando..." : "Crear"}
           </Button>
-          <Link
-            to="/categorias"
-            className="inline-flex h-8 items-center text-sm text-muted-foreground underline-offset-4 hover:text-foreground hover:underline"
-          >
+          <Link to="/categorias" className="cancel-link">
             Cancelar
           </Link>
         </div>
       </form>
+      </div>
     </section>
   )
 }

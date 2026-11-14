@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react"
 import { Link } from "react-router"
-import { Button } from "@/components/ui/button"
+import { FolderPlus } from "lucide-react"
+import { buttonVariants } from "@/components/ui/button"
 import CategoriaError from "@/components/categorias/CategoriaError.jsx"
 import CategoriaItem from "@/components/categorias/CategoriaItem.jsx"
 import CategoriaLoading from "@/components/categorias/CategoriaLoading.jsx"
@@ -50,7 +51,7 @@ export default function Categorias() {
   }
 
   return (
-    <section className="mx-auto w-full max-w-3xl space-y-6">
+    <section className="page-enter mx-auto w-full max-w-3xl space-y-6">
       <div className="flex flex-wrap items-end justify-between gap-4">
         <div className="space-y-1">
           <h1 className="font-heading text-2xl font-semibold tracking-tight">
@@ -60,23 +61,13 @@ export default function Categorias() {
             Organizá tus comandos en categorías personales.
           </p>
         </div>
-        <Link to="/categorias/nueva">
-          <Button type="button">Nueva categoría</Button>
+        <Link to="/categorias/nueva" className={buttonVariants()}>
+          <FolderPlus aria-hidden="true" />
+          Nueva categoría
         </Link>
       </div>
 
-      <div className="overflow-x-auto rounded-md border border-border">
-        <table className="w-full min-w-[28rem] text-left">
-          <thead className="border-b border-border bg-muted/40">
-            <tr>
-              <th className="px-3 py-2 text-sm font-medium">Nombre</th>
-              <th className="px-3 py-2 text-sm font-medium">Descripción</th>
-              <th className="px-3 py-2 text-sm font-medium">Acciones</th>
-            </tr>
-          </thead>
-          <tbody>{contenido}</tbody>
-        </table>
-      </div>
+      <div className="flex flex-col gap-3">{contenido}</div>
     </section>
   )
 }

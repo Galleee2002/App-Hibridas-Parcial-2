@@ -7,6 +7,13 @@ export const loginSchema = z.object({
     .min(1, "La contraseña es obligatoria"),
 })
 
+export const actualizarCuentaSchema = z.object({
+  nombre: z
+    .string("El nombre es obligatorio")
+    .trim()
+    .min(1, "El nombre es obligatorio"),
+})
+
 export const registroSchema = z
   .object({
     nombre: z

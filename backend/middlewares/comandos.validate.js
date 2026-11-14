@@ -4,26 +4,27 @@ import {
     consultarComandosSchema,
 } from "../schemas/comandos.js"
 
-function mensajesValidacion(error, mensajeFallback) {
-    return error.issues?.map((issue) => {
-        const campo = issue.path.length ? `${issue.path.join(".")}: ` : ""
-        return `${campo}${issue.message}`
-    }) ?? [mensajeFallback]
-}
-
-function crearValidador(schema) {
-    return async function validarComando(req, res, next) {
-        try {
-            req.body = await schema.parseAsync(req.body)
-            next()
-        } catch (error) {
-            res.status(400).json(mensajesValidacion(error, "Los datos del comando no son válidos"))
-        }
+export async function validarCrearComando(req, res, next) {
+    try {
+        const comando = await crearComandoSchema.parseAsync(req.body)
+        req.body = comando
+        next()
+    } catch (errors) {
+        const messages = errors.issues.map((error) => `${error.path}: ${error.message}`)
+        res.status(400).json(messages)
     }
 }
 
-export const validarCrearComando = crearValidador(crearComandoSchema)
-export const validarActualizarComando = crearValidador(actualizarComandoSchema)
+export async function validarActualizarComando(req, res, next) {
+    try {
+        const comando = await actualizarComandoSchema.parseAsync(req.body)
+        req.body = comando
+        next()
+    } catch (errors) {
+        const messages = errors.issues.map((error) => `${error.path}: ${error.message}`)
+        res.status(400).json(messages)
+    }
+}
 
 export async function validarConsultarComandos(req, res, next) {
     try {
@@ -35,7 +36,8 @@ export async function validarConsultarComandos(req, res, next) {
             configurable: true,
         })
         next()
-    } catch (error) {
-        res.status(400).json(mensajesValidacion(error, "Los parámetros de consulta no son válidos"))
+    } catch (errors) {
+        const messages = errors.issues.map((error) => `${error.path}: ${error.message}`)
+        res.status(400).json(messages)
     }
 }

@@ -8,6 +8,12 @@ Por decisión explícita del usuario, los tokens viven **versionados como variab
 
 El isotipo del sitio es el archivo que aportó el usuario. Vive en `frontend/public/favicon.png` y `frontend/index.html` lo declara con `<link rel="icon" type="image/png" href="/favicon.png" />`. No forma parte de los tokens.
 
+El fondo de las pantallas usa la imagen que aportó el usuario, `frontend/public/fondo-circuitos.png` (el archivo original estaba solo en Descargas; `frontend/dist/` no se versiona). `index.css` la pinta fija detrás de `#root`, con opacidad `--bgImage-opacity` definida en `tokens.css`: `0.1` en claro y `0.55` en oscuro. El contenedor de `Layout` es transparente para que el circuito se vea en los márgenes. El texto vive en paneles `bg-background/85` con borde. La barra de navegación es sticky y usa `bg-background/80` con `backdrop-blur`.
+
+La marca en el header es el texto CommandHub junto al icono `SquareTerminal` de `lucide-react` (ya instalado). Los iconos acompañan el texto existente; no reemplazan etiquetas. No se usa el logo de GitHub ni el paquete `@primer/primitives`. El acento sigue siendo el azul de los tokens.
+
+Las pantallas entran con la animación `page-enter` (`--duration-base`, `--ease-out`). Hover, foco y la presión del botón usan `--duration-fast` (150 ms). `prefers-reduced-motion: reduce` anula el desplazamiento de entrada y el botón no escala. El comando se muestra con la clase `.snippet` (monoespacio, borde y superficie muted).
+
 ## Preset de shadcn/ui acordado
 
 Por decisión explícita del usuario, se utiliza el preset `b2DcW8Pfk` al integrar shadcn/ui. Los colores siguen definidos por las variables de `frontend/src/styles/tokens.css`; la paleta de shadcn no las reemplaza. También se conservan las convenciones visuales existentes del proyecto.
@@ -22,6 +28,8 @@ El entrypoint de tokens es `frontend/src/styles/tokens.css`. Define en el propio
 - radio (`--overlay-borderRadius`)
 - espaciado y texto base (`--space-*`, `--text-body-size-medium`)
 - colores semánticos light/dark (`--bgColor-*`, `--fgColor-*`, `--borderColor-*`)
+- opacidad del fondo ilustrado (`--bgImage-opacity`)
+- motion (`--duration-fast` 150 ms, `--duration-base` 240 ms, `--ease-out`)
 
 La hoja de la app `frontend/src/index.css` carga Tailwind, esos tokens y la hoja de shadcn:
 
@@ -41,23 +49,26 @@ La instalación, scripts y versiones se documentan en el `README.md` de la raíz
 Los tokens de color se aplican con atributos `data-*` en `<html>`:
 
 ```html
-<html data-color-mode="auto" data-light-theme="light" data-dark-theme="dark">
+<html lang="es" data-color-mode="dark" data-light-theme="light" data-dark-theme="dark">
 ```
 
-`data-color-mode` acepta `light`, `dark` o `auto`. En `auto`, `tokens.css` usa `prefers-color-scheme` para elegir la paleta oscura. Los atributos `data-light-theme` / `data-dark-theme` se conservan por compatibilidad con el marcado existente.
+Por decisión explícita del usuario, la app queda fija en oscuro: `frontend/index.html` declara `data-color-mode="dark"` y `html` usa `color-scheme: dark`. No se consulta `prefers-color-scheme`. Los bloques `light` y `auto` de `tokens.css` siguen definidos, pero no se aplican. Los atributos `data-light-theme` / `data-dark-theme` se conservan por compatibilidad con el marcado existente.
 
 ## Consumo y nombres
 
 En CSS se consumen con `var(...)`, por ejemplo:
 
 ```css
-.command-code {
-  color: var(--fgColor-default);
-  background-color: var(--bgColor-muted);
-  padding: var(--space-md);
+.snippet {
+  border-radius: var(--overlay-borderRadius);
+  border: 1px solid var(--borderColor-default);
+  background-color: color-mix(in srgb, var(--bgColor-muted) 80%, transparent);
+  padding: var(--space-sm) var(--space-md);
   font-size: var(--text-body-size-medium);
 }
 ```
+
+En `index.css`, las clases de superficie son `.panel`, `.field`, `.field-icon`, `.snippet`, `.list-card`, `.nav-link`, `.back-link` y `.cancel-link`. Los campos de formulario usan `.field` en lugar de repetir la cadena de utilidades.
 
 Se deben preferir esos tokens a valores visuales escritos directamente cuando exista un token adecuado. Cualquier decisión visual nueva debe agregarse en `tokens.css` (o documentarse aquí) antes de usarse en componentes.
 

@@ -64,7 +64,98 @@
   body {
     @apply bg-background text-foreground;
     }
+  body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+    background-image: url("/fondo-circuitos.png");
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+    opacity: var(--bgImage-opacity);
+    }
+  #root {
+    position: relative;
+    z-index: 1;
+    min-height: 100dvh;
+    }
   html {
     @apply font-sans;
+    color-scheme: dark;
     }
+}
+
+@layer components {
+  .panel {
+    @apply rounded-md border border-border bg-background/85 text-foreground;
+  }
+  .field {
+    @apply w-full rounded-md border border-input bg-background/80 px-3 py-2 text-sm text-foreground outline-none focus-visible:ring-2 focus-visible:ring-ring;
+    transition:
+      border-color var(--duration-fast) var(--ease-out),
+      box-shadow var(--duration-fast) var(--ease-out);
+  }
+  .field:disabled {
+    @apply cursor-not-allowed text-muted-foreground;
+  }
+  .field-icon {
+    @apply pl-9;
+  }
+  .snippet {
+    @apply overflow-x-auto rounded-md border border-border bg-muted/80 px-3 py-2 font-mono text-sm whitespace-pre-wrap text-foreground;
+  }
+  .nav-link {
+    @apply inline-flex items-center gap-1.5 rounded-md px-2 py-1 text-sm text-muted-foreground;
+    transition:
+      color var(--duration-fast) var(--ease-out),
+      background-color var(--duration-fast) var(--ease-out);
+  }
+  .nav-link:hover {
+    @apply text-foreground;
+  }
+  .nav-link[aria-current="page"] {
+    @apply bg-accent text-accent-foreground;
+  }
+  .list-card {
+    @apply rounded-md border border-border bg-background/85 p-4;
+    transition:
+      background-color var(--duration-fast) var(--ease-out),
+      border-color var(--duration-fast) var(--ease-out);
+  }
+  .list-card:hover {
+    @apply bg-muted/70;
+  }
+  .back-link {
+    @apply inline-flex h-8 items-center text-sm font-medium text-primary underline-offset-4 hover:underline;
+    transition: color var(--duration-fast) var(--ease-out);
+  }
+  .cancel-link {
+    @apply inline-flex h-8 items-center text-sm text-muted-foreground underline-offset-4 hover:text-foreground hover:underline;
+    transition: color var(--duration-fast) var(--ease-out);
+  }
+  .page-enter {
+    animation: page-enter var(--duration-base) var(--ease-out) both;
+  }
+  .page-enter-delay {
+    animation-delay: 120ms;
+  }
+}
+
+@keyframes page-enter {
+  from {
+    opacity: 0;
+    transform: translateY(0.5rem);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .page-enter {
+    animation: none;
+  }
 }

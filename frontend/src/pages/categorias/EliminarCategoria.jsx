@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react"
 import { Link, useNavigate, useParams } from "react-router"
+import { Trash2 } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { useApiCategorias } from "@/services/categorias.service.js"
 
@@ -55,37 +56,44 @@ export default function EliminarCategoria() {
 
   if (estado === "loading") {
     return (
-      <p className="text-sm text-muted-foreground">Cargando categoría...</p>
+      <p className="panel page-enter mx-auto w-full max-w-md px-4 py-3 text-sm text-muted-foreground">
+        Cargando categoría...
+      </p>
     )
   }
 
   if (estado === "error") {
     return (
-      <section className="mx-auto w-full max-w-md space-y-4">
-        <p className="text-sm text-destructive">{errorCarga}</p>
-        <Link
-          to="/categorias"
-          className="text-sm font-medium text-primary underline-offset-4 hover:underline"
-        >
-          Volver a categorías
-        </Link>
+      <section className="page-enter mx-auto w-full max-w-md">
+        <div className="panel space-y-4 p-6">
+          <p className="text-sm text-destructive">{errorCarga}</p>
+          <Link to="/categorias" className="back-link">
+            Volver a categorías
+          </Link>
+        </div>
       </section>
     )
   }
 
   return (
-    <section className="mx-auto w-full max-w-md space-y-6">
-      <div className="space-y-1">
-        <h1 className="font-heading text-2xl font-semibold tracking-tight">
-          Eliminar categoría
-        </h1>
-        <p className="text-sm text-muted-foreground">
-          Confirmá que querés eliminar esta categoría. Si tiene comandos
-          asociados, la API lo impedirá.
-        </p>
+    <section className="page-enter mx-auto w-full max-w-md">
+      <div className="panel space-y-6 p-6">
+      <div className="flex items-center gap-3">
+        <span className="flex size-10 items-center justify-center rounded-md bg-destructive/15 text-destructive">
+          <Trash2 className="size-5" aria-hidden="true" />
+        </span>
+        <div className="space-y-1">
+          <h1 className="font-heading text-2xl font-semibold tracking-tight">
+            Eliminar categoría
+          </h1>
+          <p className="text-sm text-muted-foreground">
+            Confirmá que querés eliminar esta categoría. Si tiene comandos
+            asociados, la API lo impedirá.
+          </p>
+        </div>
       </div>
 
-      <div className="space-y-1 rounded-md border border-border px-4 py-3">
+      <div className="space-y-1 rounded-md border border-border bg-muted/40 px-4 py-3">
         <p className="text-sm font-medium">{categoria.nombre}</p>
         <p className="text-sm text-muted-foreground">
           {categoria.descripcion || "Sin descripción"}
@@ -100,15 +108,14 @@ export default function EliminarCategoria() {
 
       <form onSubmit={handleEliminar} className="flex flex-wrap gap-3">
         <Button type="submit" variant="destructive" disabled={isSubmitting}>
+          <Trash2 aria-hidden="true" />
           {isSubmitting ? "Eliminando..." : "Eliminar"}
         </Button>
-        <Link
-          to="/categorias"
-          className="inline-flex h-8 items-center text-sm text-muted-foreground underline-offset-4 hover:text-foreground hover:underline"
-        >
+        <Link to="/categorias" className="cancel-link">
           Cancelar
         </Link>
       </form>
+      </div>
     </section>
   )
 }

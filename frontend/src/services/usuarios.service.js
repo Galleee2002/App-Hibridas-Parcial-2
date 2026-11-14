@@ -8,5 +8,11 @@ export function useApiUsuarios() {
     login(credenciales) {
       return call("/api/login", "POST", credenciales)
     },
+    obtenerCuenta() {
+      return call("/api/usuarios/me")
+    },
+    actualizarCuenta(datos) {
+      return call("/api/usuarios/me", "PUT", datos)
+    },
   }
 }

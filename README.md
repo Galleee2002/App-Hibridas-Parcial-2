@@ -1,7 +1,7 @@
 # CommandHub — App Híbridas Parcial 2
 
-Base del proyecto definido en `docs/CONSIGNA-PARCIAL-2.md` y `docs/PRD.md`.
-El frontend tiene Vite, Tailwind CSS 4 y shadcn/ui como andamiaje; todavía no hay pantallas ni funcionalidades del MVP.
+Biblioteca personal de comandos definida en `docs/CONSIGNA-PARCIAL-2.md` y `docs/PRD.md`.
+Cada persona registra una cuenta, organiza categorías y guarda, busca y copia sus propios comandos. La API REST y las pantallas del MVP ya están armadas.
 
 ## Entorno
 
@@ -28,37 +28,44 @@ No mezclar instalaciones de dependencias con npm o Yarn ni generar sus lockfiles
 
 `pnpm-workspace.yaml` configura versiones exactas al agregar paquetes y la comprobación estricta de engines y peers. `nodeVersion` define la versión contra la que pnpm comprueba compatibilidad; no cambia el Node activo de la terminal: para eso se usa `nvm use`.
 
-## Frontend (base Vite)
+## Frontend
 
-Andamiaje de la app, sin páginas ni componentes de producto:
+React con `createBrowserRouter`, Context de sesión, Tailwind CSS 4 y los tokens de `frontend/src/styles/tokens.css`. El consumo de la API está en `frontend/src/services/` (`api.service.js` y hooks `useApi*`). Los formularios usan Zod y `react-hook-form`.
 
-- `frontend/index.html` (título CommandHub e icono `/favicon.png`)
-- `frontend/public/favicon.png` (isotipo del sitio)
-- `frontend/vite.config.js` (plugin Tailwind y alias `@` hacia `src/`)
-- `frontend/jsconfig.json` y `frontend/components.json` (shadcn/ui, estilo `base-nova`)
-- `frontend/src/main.jsx` (monta un contenedor vacío; aún sin React Router)
-- `frontend/src/index.css` (Tailwind, tokens en `styles/tokens.css` y aliases de color para shadcn)
-- `frontend/src/lib/utils.js` y `frontend/src/components/ui/button.jsx`
+Pantallas ya disponibles, con la sesión iniciada salvo registro, ingreso y salir:
+
+- `/` — inicio privado
+- `/registro`, `/ingreso`, `/salir`
+- `/categorias` y alta, edición y eliminación
+- `/comandos` — listado propio, búsqueda por título, filtro por categoría y copiar; alta, edición y eliminación
+- `/cuenta` — ver nombre y correo; editar solo el nombre
+
+`VITE_API_URL` es opcional. Si no está definida, el cliente usa `http://localhost:2026`. La plantilla está en `frontend/.env.example`.
 
 ```bash
 nvm use
 pnpm --filter commandhub-frontend dev
 ```
 
-También: `pnpm --filter commandhub-frontend build` y `pnpm --filter commandhub-frontend preview`.
+También: `pnpm --filter commandhub-frontend build` y `pnpm --filter commandhub-frontend preview`. Vite publica el frontend en su puerto de desarrollo habitual (`5173`). El backend tiene que estar en el puerto `2026`.
 
 ## Backend (API REST)
 
-Punto de entrada Express alineado a la clase 25, con capas en `api/routes`, `api/controllers`, `services`, `middlewares` y `schemas`. Puerto `2026`.
+Punto de entrada Express alineado a la clase 26, con capas en `api/routes`, `api/controllers`, `services`, `middlewares` y `schemas`. Puerto `2026`. Las rutas de categorías y comandos, y el perfil, piden `Authorization: Bearer <token>`.
 
 Endpoints actuales:
 
 - `GET /api/estado` — comprobación de API y MongoDB
 - `POST /api/usuarios` — registro (`nombre`, `correo`, `contraseña`)
 - `POST /api/login` — ingreso; responde con JWT y datos públicos del usuario
-- `GET /api/usuarios/me` — perfil del usuario autenticado (`Authorization: Bearer <token>`)
+- `GET /api/usuarios/me` — perfil del usuario autenticado
+- `PUT /api/usuarios/me` — actualiza el nombre; el correo no se edita
+- `GET /api/categorias` y `GET /api/categorias/:id`
+- `POST /api/categorias`, `PUT /api/categorias/:id`, `DELETE /api/categorias/:id` — no borra una categoría que todavía tiene comandos
+- `GET /api/comandos` — listado propio; acepta `titulo` y `categoriaId`
+- `GET /api/comandos/:id`, `POST /api/comandos`, `PUT /api/comandos/:id`, `DELETE /api/comandos/:id`
 
-Variables de entorno (archivo `backend/.env`, fuera del repositorio; plantilla en `backend/.env.example`):
+Variables de entorno (archivo `backend/.env`, fuera del repositorio; plantilla en `backend/.env.example`). Ese archivo no se commitea: se entrega aparte, como pide la consigna.
 
 ```
 MONGODB_URI=mongodb+srv://USUARIO:PASSWORD@CLUSTER.mongodb.net/?appName=commandhub
@@ -81,7 +88,9 @@ También: `pnpm --filter commandhub-backend start`. Los scripts cargan `.env` co
 | --- | --- | --- | --- |
 | `react` | `19.3.1` | Componentes y estado | Frontend |
 | `react-dom` | `19.3.1` | Renderizado en el navegador | Frontend |
-| `react-router` | `8.4.0` | Navegación (declarado; aún no usado en `main.jsx`) | Frontend |
+| `react-router` | `8.4.0` | Navegación con `createBrowserRouter` | Frontend |
+| `react-hook-form` | `7.91.0` | Formularios | Frontend |
+| `@hookform/resolvers` | `7.0.5` | Conecta Zod con los formularios | Frontend |
 | `tailwindcss` | `4.3.3` | Utilidades CSS | Frontend |
 | `@tailwindcss/vite` | `4.3.3` | Plugin de Tailwind para Vite | Frontend |
 | `shadcn` | `4.22.1` | Componentes de interfaz | Frontend |
@@ -112,22 +121,14 @@ Ese comando omite Vite y su plugin. La compilación del frontend (`pnpm --filter
 
 ## Estado y verificaciones
 
-Verificado el 20 de octubre de 2026 con Node `24.22.0` (vía `nvm use`) y pnpm `10.33.0`:
-
-- Instalación del workspace y dependencias declaradas.
-- `pnpm --filter commandhub-frontend build` completa con el entrypoint Vite base (17/10/2026).
-- Backend (20/10/2026): etapa 1 cerrada. `GET /api/estado` respondió `{ "ok": true }` contra MongoDB Atlas. Capas en `api/routes`, `api/controllers`, `services`, `middlewares` y `schemas`.
-- Roadmap único en `docs/ROADMAP.md` (Parte 1 backend, Parte 2 frontend).
-- Frontend (20/10/2026): Tailwind CSS 4, shadcn/ui (`base-nova`) y el componente `Button`; `main.jsx` sigue sin router ni pantallas.
-
-Pendientes: etapa 2 del backend en `docs/ROADMAP.md` (acceso a la cuenta). En el frontend, la etapa 1 sigue abierta: falta enrutamiento y las capas `services/` y `context/`. Las pantallas de producto esperan a que la Parte 1 (backend) esté completa.
+El 14/11/2026 el README quedó alineado al roadmap cerrado: Parte 1 (backend) y Parte 2 (frontend) terminadas. El cierre se recorrió en el navegador contra el backend en el puerto `2026`. Las pruebas de las etapas de backend siguen registradas en `docs/ROADMAP.md`.
 
 ## Referencias del proyecto
 
 - Alcance y requisitos: `docs/CONSIGNA-PARCIAL-2.md` y `docs/PRD.md`.
 - Ejecución: `docs/ROADMAP.md`.
 - Diseño visual: `docs/DESIGN-SYSTEM.md` y los tokens propios del proyecto.
-- Estructura, sintaxis y organización del código: `DWN4AP-2026-2/clase-25/back/` y `front/`, cuando el clon docente esté disponible localmente.
+- Estructura, sintaxis y organización del código: `DWN4AP-2026-2/clase-26/back/` y `front/`. Las diferencias autorizadas están en `AGENTS.md`.
 
 El clon docente está excluido de Git y del workspace de pnpm. No se instalan sus dependencias al instalar las de CommandHub y no se descarga al clonar este proyecto.
 

@@ -1,57 +1,68 @@
-import { Link, Outlet } from "react-router"
+import { NavLink, Link, Outlet } from "react-router"
+import {
+  Folders,
+  House,
+  LogIn,
+  LogOut,
+  SquareTerminal,
+  Terminal,
+  User,
+  UserPlus,
+} from "lucide-react"
 import { useUsuario } from "@/context/session.context.jsx"
 
 export default function Layout() {
   const usuario = useUsuario()
 
   return (
-    <div className="min-h-dvh bg-background text-foreground">
-      <header className="flex items-center justify-between gap-4 border-b border-border px-6 py-4">
-        <Link
-          to={usuario?.token ? "/" : "/ingreso"}
-          className="font-heading text-lg font-semibold tracking-tight"
-        >
-          CommandHub
-        </Link>
-        <nav className="flex items-center gap-4 text-sm">
-          {usuario?.token ? (
-            <>
-              <Link
-                to="/"
-                className="text-muted-foreground underline-offset-4 hover:text-foreground hover:underline"
-              >
-                Inicio
-              </Link>
-              <Link
-                to="/categorias"
-                className="text-muted-foreground underline-offset-4 hover:text-foreground hover:underline"
-              >
-                Categorías
-              </Link>
-              <Link
-                to="/salir"
-                className="text-muted-foreground underline-offset-4 hover:text-foreground hover:underline"
-              >
-                Salir
-              </Link>
-            </>
-          ) : (
-            <>
-              <Link
-                to="/ingreso"
-                className="text-muted-foreground underline-offset-4 hover:text-foreground hover:underline"
-              >
-                Ingreso
-              </Link>
-              <Link
-                to="/registro"
-                className="font-medium text-primary underline-offset-4 hover:underline"
-              >
-                Registro
-              </Link>
-            </>
-          )}
-        </nav>
+    <div className="min-h-dvh text-foreground">
+      <header className="sticky top-0 z-20 border-b border-border bg-background/80 backdrop-blur">
+        <div className="mx-auto flex max-w-5xl flex-wrap items-center justify-between gap-4 px-6 py-3">
+          <Link
+            to={usuario?.token ? "/" : "/ingreso"}
+            className="inline-flex items-center gap-2 font-heading text-lg font-semibold tracking-tight"
+          >
+            <SquareTerminal className="size-5 text-primary" aria-hidden="true" />
+            CommandHub
+          </Link>
+          <nav className="flex flex-wrap items-center gap-1">
+            {usuario?.token ? (
+              <>
+                <NavLink to="/" end className="nav-link">
+                  <House className="size-4" aria-hidden="true" />
+                  Inicio
+                </NavLink>
+                <NavLink to="/categorias" className="nav-link">
+                  <Folders className="size-4" aria-hidden="true" />
+                  Categorías
+                </NavLink>
+                <NavLink to="/comandos" className="nav-link">
+                  <Terminal className="size-4" aria-hidden="true" />
+                  Mis comandos
+                </NavLink>
+                <NavLink to="/cuenta" className="nav-link">
+                  <User className="size-4" aria-hidden="true" />
+                  Mi cuenta
+                </NavLink>
+                <NavLink to="/salir" className="nav-link">
+                  <LogOut className="size-4" aria-hidden="true" />
+                  Salir
+                </NavLink>
+              </>
+            ) : (
+              <>
+                <NavLink to="/ingreso" className="nav-link">
+                  <LogIn className="size-4" aria-hidden="true" />
+                  Ingreso
+                </NavLink>
+                <NavLink to="/registro" className="nav-link">
+                  <UserPlus className="size-4" aria-hidden="true" />
+                  Registro
+                </NavLink>
+              </>
+            )}
+          </nav>
+        </div>
       </header>
       <main className="px-6 py-8">
         <Outlet />

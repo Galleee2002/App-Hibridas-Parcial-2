@@ -2,12 +2,10 @@ import { useEffect, useState } from "react"
 import { Link, useNavigate, useParams } from "react-router"
 import { useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
+import { Save } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { categoriaSchema } from "@/schemas/categorias.js"
 import { useApiCategorias } from "@/services/categorias.service.js"
-
-const campoClase =
-  "w-full rounded-md border border-input bg-background px-3 py-2 text-sm text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
 
 export default function EditarCategoria() {
   const { id } = useParams()
@@ -68,26 +66,28 @@ export default function EditarCategoria() {
 
   if (estado === "loading") {
     return (
-      <p className="text-sm text-muted-foreground">Cargando categoría...</p>
+      <p className="panel page-enter mx-auto w-full max-w-md px-4 py-3 text-sm text-muted-foreground">
+        Cargando categoría...
+      </p>
     )
   }
 
   if (estado === "error") {
     return (
-      <section className="mx-auto w-full max-w-md space-y-4">
-        <p className="text-sm text-destructive">{errorCarga}</p>
-        <Link
-          to="/categorias"
-          className="text-sm font-medium text-primary underline-offset-4 hover:underline"
-        >
-          Volver a categorías
-        </Link>
+      <section className="page-enter mx-auto w-full max-w-md">
+        <div className="panel space-y-4 p-6">
+          <p className="text-sm text-destructive">{errorCarga}</p>
+          <Link to="/categorias" className="back-link">
+            Volver a categorías
+          </Link>
+        </div>
       </section>
     )
   }
 
   return (
-    <section className="mx-auto w-full max-w-md space-y-6">
+    <section className="page-enter mx-auto w-full max-w-md">
+      <div className="panel space-y-6 p-6">
       <div className="space-y-1">
         <h1 className="font-heading text-2xl font-semibold tracking-tight">
           Editar categoría
@@ -105,7 +105,7 @@ export default function EditarCategoria() {
           <input
             id="nombre"
             type="text"
-            className={campoClase}
+            className="field"
             {...register("nombre")}
           />
           {errors.nombre ? (
@@ -120,7 +120,7 @@ export default function EditarCategoria() {
           <textarea
             id="descripcion"
             rows={3}
-            className={campoClase}
+            className="field"
             {...register("descripcion")}
           />
           {errors.descripcion ? (
@@ -138,16 +138,15 @@ export default function EditarCategoria() {
 
         <div className="flex flex-wrap gap-3">
           <Button type="submit" disabled={isSubmitting}>
+            <Save aria-hidden="true" />
             {isSubmitting ? "Guardando..." : "Guardar"}
           </Button>
-          <Link
-            to="/categorias"
-            className="inline-flex h-8 items-center text-sm text-muted-foreground underline-offset-4 hover:text-foreground hover:underline"
-          >
+          <Link to="/categorias" className="cancel-link">
             Cancelar
           </Link>
         </div>
       </form>
+      </div>
     </section>
   )
 }

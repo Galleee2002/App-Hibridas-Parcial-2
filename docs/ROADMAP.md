@@ -1,7 +1,7 @@
 # Roadmap — CommandHub MVP
 
 **Producto:** CommandHub (biblioteca personal de comandos)  
-**Estado general:** en curso  
+**Estado general:** terminada  
 **Fuentes de alcance:** [CONSIGNA-PARCIAL-2.md](./CONSIGNA-PARCIAL-2.md), [PRD.md](./PRD.md)  
 **Reglas de trabajo:** [AGENTS.md](../AGENTS.md)  
 **Diseño visual:** [DESIGN-SYSTEM.md](./DESIGN-SYSTEM.md)
@@ -20,7 +20,7 @@ Prioridad del PRD (sección 12): acceso a cuenta → categorías → comandos �
 | Validación | Zod (backend y frontend) |
 | Auth | JWT, contraseñas hasheadas |
 
-Estructura de código alineada a `DWN4AP-2026-2/clase-25/` (`back/` y `front/`). Carpetas del proyecto: `backend/` y `frontend/`. El backend es solo API REST. Los colores siguen las variables CSS versionadas en `frontend/src/styles/tokens.css`; el preset de shadcn no las reemplaza.
+Estructura de código alineada a `DWN4AP-2026-2/clase-26/` (`back/` y `front/`). Carpetas del proyecto: `backend/` y `frontend/`. El backend es solo API REST. Los colores siguen las variables CSS versionadas en `frontend/src/styles/tokens.css`; el preset de shadcn no las reemplaza.
 
 ## Orden de ejecución
 
@@ -40,7 +40,11 @@ La etapa 1 del frontend (base Vite) puede avanzar como andamiaje, sin vistas de 
 
 ## Siguiente paso
 
-Parte 1 (backend) completa. Etapas 1–3 del frontend cerradas. Continuar Parte 2 desde Etapa 4 — Formulario y listado de comandos.
+El MVP está cerrado. No hay una etapa siguiente.
+
+Ajuste visual posterior (14/11/2026), pedido explícito del usuario: las pantallas muestran `fondo-circuitos.png`, la marca CommandHub, iconos de Lucide y micro-animaciones. No agrega funciones. El detalle está en [DESIGN-SYSTEM.md](./DESIGN-SYSTEM.md).
+
+Contraste del 14/11/2026 con `DWN4AP-2026-2/clase-26/`: lo cerrado sigue la forma REST y de frontend de esa clase. Las diferencias que se mantienen están en [AGENTS.md](../AGENTS.md) (credenciales por `.env`, sin roles ni SSR, códigos HTTP de negocio, validación del ingreso).
 
 ---
 
@@ -51,7 +55,7 @@ Parte 1 (backend) completa. Etapas 1–3 del frontend cerradas. Continuar Parte 
 
 ## Forma de trabajo (backend)
 
-La estructura y la sintaxis siguen `DWN4AP-2026-2/clase-25/back/`, adaptadas a CommandHub:
+La estructura y la sintaxis siguen `DWN4AP-2026-2/clase-26/back/`, adaptadas a CommandHub:
 
 - Capas REST: `api/routes` → `middlewares` (Zod) → `api/controllers` → `services`, más `schemas`.
 - JavaScript ESM: `export async function`, `export default router`, `import * as servicio`.
@@ -244,14 +248,14 @@ Las fuentes no precisaban coincidencia parcial ni sensibilidad a mayúsculas, ni
 # Parte 2 — Frontend (interfaz)
 
 **Capa:** interfaz en `frontend/`  
-**Estado general:** en curso  
+**Estado general:** terminada  
 **Diseño visual:** [DESIGN-SYSTEM.md](./DESIGN-SYSTEM.md)
 
 Las pantallas de producto (etapas 2 a 7) empiezan cuando la Parte 1 (backend) está completa. La etapa 1 puede avanzar como andamiaje, sin vistas de producto.
 
 ## Forma de trabajo (frontend)
 
-La organización sigue `DWN4AP-2026-2/clase-25/front/`, adaptada a CommandHub:
+La organización sigue `DWN4AP-2026-2/clase-26/front/`, adaptada a CommandHub:
 
 - Router con `createBrowserRouter` en `src/main.jsx`.
 - Pantallas en `src/pages`.
@@ -261,7 +265,7 @@ La organización sigue `DWN4AP-2026-2/clase-25/front/`, adaptada a CommandHub:
 - Sesión con Context en `src/context` (consigna); rutas protegidas.
 - Estados de carga típicos: `loading | ready | error`.
 
-No se copian roles ni el criterio de sesión del ejemplo docente. El estilo visual usa [DESIGN-SYSTEM.md](./DESIGN-SYSTEM.md) y las variables de `tokens.css`; la clase 25 no define la interfaz de CommandHub.
+No se copian roles ni el criterio de sesión del ejemplo docente. El estilo visual usa [DESIGN-SYSTEM.md](./DESIGN-SYSTEM.md) y las variables de `tokens.css`; la clase 26 no define la interfaz de CommandHub.
 
 ---
 
@@ -379,7 +383,7 @@ No se copian roles ni el criterio de sesión del ejemplo docente. El estilo visu
 
 | Campo | Valor |
 | --- | --- |
-| **Estado** | no iniciado |
+| **Estado** | terminada |
 | **Objetivo** | Crear, consultar, editar y eliminar comandos desde la interfaz. |
 | **Requisito** | PRD 6.2 (crear, ver, editar, eliminar; sin búsqueda, filtro ni copiar aún). Vista Formulario de comando (sección 7). |
 | **Dependencia** | Etapa 3 de frontend. Consume la etapa 4 de backend. |
@@ -390,11 +394,26 @@ No se copian roles ni el criterio de sesión del ejemplo docente. El estilo visu
 - Listado y consulta de comandos propios.
 - Confirmación antes de eliminar; eliminar un comando no elimina su categoría.
 
+**Hecho**
+
+- Rutas protegidas `/comandos`, `/comandos/nuevo`, `/comandos/:id/editar`, `/comandos/:id/eliminar`.
+- Páginas en `pages/comandos/`; componentes de fila/loading/error en `components/comandos/`.
+- `schemas/comandos.js` (Zod) + `services/comandos.service.js` (`GET/POST/PUT/DELETE /api/comandos`).
+- Listado con estados `loading | ready | error` y vacío; instrucción diferenciada (`font-mono` / `bg-muted`); nombre de categoría resuelto en cliente.
+- Formularios con RHF + Zod y `<select>` de categorías propias; si no hay categorías, se invita a crear una.
+- Baja con página de confirmación; la categoría asociada no se elimina.
+- Nav con Comandos; Home enlaza a comandos y categorías.
+
 **Criterios de terminado**
 
 - El usuario crea, consulta, edita y elimina solo sus comandos.
 - Todo comando queda asociado a una categoría válida propia.
 - Hay confirmación antes de eliminar.
+
+**Verificación**
+
+- `pnpm --filter commandhub-frontend build` OK.
+- Flujo manual CRUD de comandos + comprobar que borrar un comando no borra la categoría, pendiente si el backend no está levantado en `:2026`.
 
 ---
 
@@ -402,7 +421,7 @@ No se copian roles ni el criterio de sesión del ejemplo docente. El estilo visu
 
 | Campo | Valor |
 | --- | --- |
-| **Estado** | no iniciado |
+| **Estado** | terminada |
 | **Objetivo** | Facilitar encontrar y reutilizar comandos desde el listado principal. |
 | **Requisito** | PRD 6.2 (búsqueda, filtro, copiar), vistas esperadas (sección 7), criterios de aceptación 5 y 6. |
 | **Dependencia** | Etapa 4 de frontend. Consume la etapa 5 de backend. |
@@ -416,11 +435,24 @@ No se copian roles ni el criterio de sesión del ejemplo docente. El estilo visu
 - Acción para copiar el texto del comando.
 - Estados vacíos cuando no hay resultados o no hay comandos.
 
+**Hecho**
+
+- Listado `/comandos` renombrado a «Mis comandos» (nav y Home alineados).
+- `listar({ titulo, categoriaId })` en `services/comandos.service.js` con query string (`URLSearchParams`).
+- Filtros inline en `Comandos.jsx` (input título + Buscar, select categoría, Limpiar); recarga con `loading | ready | error`.
+- Acción Copiar en `ComandoItem` (`navigator.clipboard` sobre `instruccion`, feedback «Copiado»).
+- Vacíos diferenciados: sin comandos vs sin resultados con filtros.
+
 **Criterios de terminado**
 
 - Se puede localizar un comando propio por título y por categoría.
 - La acción de copiar permite reutilizar la instrucción.
 - El listado permanece usable con y sin resultados.
+
+**Verificación**
+
+- `pnpm --filter commandhub-frontend build` OK.
+- Flujo manual búsqueda/filtro/copiar + vacíos, pendiente si el backend no está levantado en `:2026`.
 
 ---
 
@@ -428,7 +460,7 @@ No se copian roles ni el criterio de sesión del ejemplo docente. El estilo visu
 
 | Campo | Valor |
 | --- | --- |
-| **Estado** | no iniciado |
+| **Estado** | terminada |
 | **Objetivo** | Consultar datos de la cuenta y editar el nombre visible. |
 | **Requisito** | PRD 6.4 y vista “Mi cuenta”. |
 | **Dependencia** | Etapa 2 de frontend. Consume la etapa 6 de backend. No bloquea las etapas 3–5. |
@@ -439,10 +471,22 @@ No se copian roles ni el criterio de sesión del ejemplo docente. El estilo visu
 - Editar solo el nombre.
 - Correo fijo (sin edición en el MVP).
 
+**Hecho**
+
+- Ruta protegida `/cuenta` y enlace «Mi cuenta» en el nav, visible solo con sesión.
+- `pages/cuenta/MiCuenta.jsx` con estados `loading | ready | error`: nombre editable y correo visible, deshabilitado.
+- `actualizarCuentaSchema` (solo `nombre`, con recorte y obligatorio) y métodos `obtenerCuenta` / `actualizarCuenta` en `useApiUsuarios`. El `PUT` envía únicamente `{ nombre }`.
+- Tras guardar, la sesión conserva el token y toma el nombre devuelto por la API. El saludo de Inicio muestra ese nombre.
+
 **Criterios de terminado**
 
 - El usuario ve su nombre y correo.
 - Puede actualizar el nombre y el cambio se refleja tras guardar.
+
+**Verificación**
+
+- `pnpm --filter commandhub-frontend build` OK.
+- Flujo manual con el backend en `:2026`: la cuenta muestra nombre y correo; el nombre vacío se rechaza; al guardar, el `PUT` manda solo el nombre y el saludo de Inicio cambia. Sin sesión, `/cuenta` redirige a `/ingreso`. Categorías y Mis comandos siguen abriendo con la misma sesión.
 
 ---
 
@@ -450,7 +494,7 @@ No se copian roles ni el criterio de sesión del ejemplo docente. El estilo visu
 
 | Campo | Valor |
 | --- | --- |
-| **Estado** | no iniciado |
+| **Estado** | terminada |
 | **Objetivo** | Dejar el producto entregable según la consigna y el PRD. |
 | **Requisito** | Consigna: README detallado. PRD sección 8 y criterios de aceptación 8–10. |
 | **Dependencia** | Etapas 5 y 6 de frontend. Parte 1 (backend) completa. |
@@ -461,7 +505,21 @@ No se copian roles ni el criterio de sesión del ejemplo docente. El estilo visu
 - README: de qué trata el producto y cómo levantarlo.
 - No agregar funcionalidades nuevas.
 
+**Hecho**
+
+- El nav de `Layout` usa `flex-wrap` para que los enlaces quepan en pantallas chicas.
+- Un comando sin categoría muestra «Elegí una categoría». Un id inválido sigue diciendo «La categoría no es válida».
+- Si copiar falla, el listado muestra «No se pudo copiar».
+- El fallo al cargar categorías queda junto al filtro y no reemplaza el estado del listado.
+- Los vacíos y las confirmaciones de baja ya estaban y se mantienen.
+- El README explica el producto, cómo levantarlo y que `backend/.env` se entrega aparte.
+
 **Criterios de terminado**
 
 - Se cumplen los criterios de aceptación del PRD.
 - El README permite entender el producto y levantarlo.
+
+**Verificación**
+
+- `pnpm --filter commandhub-frontend build` OK.
+- Flujo manual con el backend en `:2026`, en escritorio y a 390 px de ancho: la navegación no se desborda; el alta sin categoría muestra «Elegí una categoría»; copiar muestra «Copiado» o «No se pudo copiar»; la baja de un comando y de una categoría pide confirmación; Inicio, categorías, comandos y Mi cuenta abren con la sesión. El comando creado para esa prueba se eliminó.
