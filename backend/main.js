@@ -1,14 +1,14 @@
+import express from "express"
+import estadoApiRoutes from "./api/routes/estado.routes.js"
+import usuariosApiRoutes from "./api/routes/usuarios.routes.js"
+import categoriasApiRoutes from "./api/routes/categorias.routes.js"
+import comandosApiRoutes from "./api/routes/comandos.routes.js"
+import { cors } from "./middlewares/cors.js"
+
 if (!process.env.MONGODB_URI || !process.env.MONGODB_DB || !process.env.JWT_SECRET) {
     console.error("Faltan MONGODB_URI, MONGODB_DB o JWT_SECRET. Copiá .env.example a .env y completá los valores.")
     process.exit(1)
 }
-
-const { default: express } = await import("express")
-const { default: estadoApiRoutes } = await import("./api/routes/estado.routes.js")
-const { default: usuariosApiRoutes } = await import("./api/routes/usuarios.routes.js")
-const { default: categoriasApiRoutes } = await import("./api/routes/categorias.routes.js")
-const { default: comandosApiRoutes } = await import("./api/routes/comandos.routes.js")
-const { cors } = await import("./middlewares/cors.js")
 
 const app = express()
 

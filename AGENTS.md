@@ -63,7 +63,7 @@ Estas instrucciones aplican a todo el repositorio y a todos los agentes que trab
   - El ingreso también usa Zod y `react-hook-form`. La consigna exige validación en el frontend; el login del docente es un formulario nativo sin Zod.
   - `api.service.js` lee el cuerpo del error (lista 400 o `message`) para mostrarlo en pantalla.
   - CORS propio en `backend/middlewares/cors.js`. Mismo efecto que el paquete `cors` del docente, sin agregar dependencias.
-  - `backend/main.js` carga Express y las rutas con `import` dinámico para comprobar `.env` antes de construir `MongoClient`. El resto sigue al docente: `urlencoded`, `json`, puerto `2026` y el mensaje `Funcionando....`.
+  - `backend/main.js` usa `import` estático ESM como el resto del backend y como el docente (`urlencoded`, `json`, puerto `2026`, mensaje `Funcionando....`), y valida `.env` antes de `listen`.
   - La navegación vive en `Layout`. No se separa un `Nav.jsx` ni se agregan `lazy`, `Suspense` o `errorElement`.
   - Los hooks `useApi*` quedan en archivos `.js`. El docente usa `.jsx`; el comportamiento es el mismo.
   - El estilo visual sale de `tokens.css` y `/docs/DESIGN-SYSTEM.md`, no de las clases del ejemplo.
